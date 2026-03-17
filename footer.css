@@ -1,0 +1,12 @@
+/* ─────────────────────────────────────────
+   footer.css — Page footer styles
+   ───────────────────────────────────────── */
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}

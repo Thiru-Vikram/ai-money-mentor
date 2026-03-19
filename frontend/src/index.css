@@ -27,7 +27,7 @@
   /* Scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #0A192F; }
-  ::-webkit-scrollbar-thumb { background: #10B981; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #16b37f; border-radius: 3px; }
 }
 
 @layer components {

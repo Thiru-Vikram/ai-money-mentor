@@ -1,192 +1,216 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from 'recharts'
-import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import {
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip
+} from 'recharts'
+import { Activity } from 'lucide-react'
 
-const SAMPLE_SCORES = [
-  { dim: 'Emergency', score: 58, label: 'Emergency Fund' },
-  { dim: 'Insurance', score: 42, label: 'Insurance Coverage' },
-  { dim: 'Diversification', score: 73, label: 'Investment Mix' },
-  { dim: 'Debt', score: 82, label: 'Debt Health' },
-  { dim: 'Tax', score: 35, label: 'Tax Efficiency' },
-  { dim: 'Retirement', score: 61, label: 'Retirement Readiness' },
+const scoreData = [
+  { dimension: 'Emergency', value: 72 },
+  { dimension: 'Insurance',  value: 58 },
+  { dimension: 'Diversification', value: 81 },
+  { dimension: 'Debt Health', value: 65 },
+  { dimension: 'Tax Efficiency', value: 43 },
+  { dimension: 'Retirement', value: 56 },
 ]
-const OVERALL = Math.round(SAMPLE_SCORES.reduce((s, d) => s + d.score, 0) / SAMPLE_SCORES.length)
 
-// Circular progress ring
-function ScoreRing({ score, size = 200, animate: doAnimate = true }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  const [progress, setProgress] = useState(0)
+const overall = Math.round(scoreData.reduce((s, d) => s + d.value, 0) / scoreData.length)
 
-  useEffect(() => {
-    if (!inView) return
-    const start = Date.now()
-    const duration = 1200
-    const raf = () => {
-      const elapsed = Date.now() - start
-      const t = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - t, 3)
-      setProgress(Math.round(score * eased))
-      if (t < 1) requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
-  }, [inView, score])
-
-  const radius = (size - 28) / 2
-  const circumference = 2 * Math.PI * radius
-  const dashoffset = circumference - (circumference * progress) / 100
-
-  const scoreColor = score >= 70 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444'
-  const scoreGrade = score >= 70 ? 'Good' : score >= 50 ? 'Fair' : 'Needs Work'
-
-  return (
-    <div ref={ref} className="flex flex-col items-center">
-      <div className="relative" style={{ width: size, height: size }}>
-        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-          {/* Track */}
-          <circle
-            cx={size / 2} cy={size / 2} r={radius}
-            fill="none" stroke="rgba(148,163,184,0.08)" strokeWidth={10}
-          />
-          {/* Fill */}
-          <circle
-            cx={size / 2} cy={size / 2} r={radius}
-            fill="none"
-            stroke={scoreColor}
-            strokeWidth={10}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={dashoffset}
-            style={{ transition: 'stroke-dashoffset 0.05s linear', filter: `drop-shadow(0 0 8px ${scoreColor}60)` }}
-          />
-        </svg>
-        {/* Center label */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-5xl font-normal num" style={{ color: scoreColor, lineHeight: 1 }}>
-            {progress}
-          </span>
-          <span className="text-xs mt-1 font-medium" style={{ color: 'var(--color-muted)' }}>/ 100</span>
-          <span className="text-xs font-bold mt-1" style={{ color: scoreColor }}>{scoreGrade}</span>
-        </div>
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload?.length) {
+    return (
+      <div className="bg-navy-800/90 border border-white/10 backdrop-blur-md rounded-xl px-3 py-2 text-xs">
+        <p className="text-white font-semibold">{payload[0].payload.dimension}</p>
+        <p className="text-green-growth">{payload[0].value}<span className="text-white/40">/100</span></p>
       </div>
-      <p className="text-xs mt-2" style={{ color: 'var(--color-muted)' }}>Money Health Score</p>
-    </div>
-  )
+    )
+  }
+  return null
 }
 
-function DimBar({ dim, delay }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-  const color = dim.score >= 70 ? '#10b981' : dim.score >= 50 ? '#f59e0b' : '#ef4444'
+const dimensionDetails = [
+  { label: 'Emergency Fund', value: 72, color: '#10B981', desc: '3.6 months of expenses covered' },
+  { label: 'Insurance Coverage', value: 58, color: '#F59E0B', desc: 'Life cover gap: ₹48L' },
+  { label: 'Investment Diversification', value: 81, color: '#10B981', desc: 'Well spread across 7 asset classes' },
+  { label: 'Debt Health', value: 65, color: '#10B981', desc: 'EMI-to-income ratio: 28%' },
+  { label: 'Tax Efficiency', value: 43, color: '#EF4444', desc: '₹54,000 in deductions missed' },
+  { label: 'Retirement Readiness', value: 56, color: '#F59E0B', desc: 'FIRE gap: ₹82L at age 60' },
+]
 
+function ScoreBar({ value, color }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -10 }}
-      animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ delay, duration: 0.4 }}
-      className="space-y-1.5"
-    >
-      <div className="flex justify-between text-xs">
-        <span style={{ color: 'var(--color-label)' }}>{dim.label}</span>
-        <span className="font-semibold num" style={{ color }}>{dim.score}</span>
-      </div>
-      <div className="progress-bar">
-        <motion.div
-          className="progress-fill"
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${dim.score}%` } : {}}
-          transition={{ delay: delay + 0.1, duration: 0.8, ease: 'easeOut' }}
-          style={{ background: color, boxShadow: `0 0 8px ${color}40` }}
-        />
-      </div>
-    </motion.div>
+    <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+      <motion.div
+        className="h-full rounded-full"
+        style={{ background: color }}
+        initial={{ width: 0 }}
+        whileInView={{ width: `${value}%` }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
+      />
+    </div>
   )
 }
 
 export default function MoneyHealthScore() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-
-  const weakest = SAMPLE_SCORES.reduce((w, d) => d.score < w.score ? d : w, SAMPLE_SCORES[0])
+  const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-24 relative" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="health" className="py-24 relative">
+      <div className="absolute inset-0 grid-dot-bg opacity-20 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <motion.div
+          ref={ref}
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <div className="tag-blue mx-auto mb-4">
-            Your Financial Wellness
-          </div>
-          <h2 className="font-display text-4xl font-normal" style={{ color: '#f1f5f9' }}>
+          <div className="section-tag mx-auto mb-4">
+            <Activity size={11} />
             Money Health Score
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+            Your Financial <span className="gradient-text">Vital Signs</span>
           </h2>
-          <p className="mt-3 text-sm max-w-lg mx-auto" style={{ color: 'var(--color-label)' }}>
-            Answer 12 questions across 6 dimensions to get your personalized financial wellness score.
+          <p className="mt-4 text-white/50 max-w-xl mx-auto text-base leading-relaxed">
+            Our AI audits <span className="text-white font-medium">2,000+ data points</span> to give
+            you a score out of 100 across 6 critical dimensions.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {/* Score ring */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="card p-8 flex flex-col items-center gap-6"
-          >
-            <ScoreRing score={OVERALL} size={200} />
+        {/* 3-col grid */}
+        <div className="grid lg:grid-cols-3 gap-6 items-start">
 
-            {/* Headline insight */}
-            <div className="headline-insight w-full text-center">
-              <p className="text-xs font-bold mb-1" style={{ color: 'var(--color-gain)' }}>💡 Key Insight</p>
-              <p className="text-sm" style={{ color: 'var(--color-label)' }}>
-                Your <strong style={{ color: '#fff' }}>{weakest.label}</strong> score is low.
-                This is where you lose the most money silently.
-              </p>
+          {/* Col 1: Overall + dimensions */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="glass-card p-6 space-y-5"
+          >
+            <div className="text-center py-4">
+              <div className="relative inline-flex items-center justify-center w-28 h-28 mx-auto mb-3">
+                <svg className="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+                  <motion.circle
+                    cx="50" cy="50" r="44"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 44}`}
+                    initial={{ strokeDashoffset: 2 * Math.PI * 44 }}
+                    animate={inView ? { strokeDashoffset: 2 * Math.PI * 44 * (1 - overall / 100) } : {}}
+                    transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-3xl font-extrabold text-white">{overall}</span>
+                  <span className="text-xs text-white/40">/100</span>
+                </div>
+              </div>
+              <p className="text-sm font-semibold text-white">Overall Score</p>
+              <p className="text-xs text-yellow-400 font-medium mt-0.5">Needs Attention</p>
             </div>
 
-            <Link to="/health-score" className="btn-primary w-full justify-center">
-              Take the Quiz <ArrowRight size={13} />
-            </Link>
-          </motion.div>
-
-          {/* Dimension bars — 2×3 grid */}
-          <div className="lg:col-span-2 card p-7">
-            <p className="text-xs font-semibold mb-6" style={{ color: 'var(--color-label)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              6 Dimensions · Sample Results
-            </p>
-            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5">
-              {SAMPLE_SCORES.map((d, i) => (
-                <DimBar key={d.dim} dim={d} delay={i * 0.08} />
+            <div className="space-y-3">
+              {dimensionDetails.map(d => (
+                <div key={d.label} className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-white/60">{d.label}</span>
+                    <span className="text-xs font-bold" style={{ color: d.color }}>{d.value}</span>
+                  </div>
+                  <ScoreBar value={d.value} color={d.color} />
+                </div>
               ))}
             </div>
+          </motion.div>
 
-            {/* Radar chart */}
-            <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-              <p className="text-xs mb-4" style={{ color: 'var(--color-muted)' }}>Radar view</p>
-              <ResponsiveContainer width="100%" height={200}>
-                <RadarChart data={SAMPLE_SCORES}>
-                  <PolarGrid stroke="rgba(148,163,184,0.1)" />
-                  <PolarAngleAxis
-                    dataKey="dim"
-                    tick={{ fill: 'var(--color-label)', fontSize: 10, fontFamily: 'Sora' }}
-                  />
-                  <Radar
-                    dataKey="score"
-                    stroke="var(--color-ai)"
-                    fill="var(--color-ai)"
-                    fillOpacity={0.12}
-                    strokeWidth={1.5}
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
+          {/* Col 2: Radar chart */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="glass-card p-6 flex flex-col items-center"
+          >
+            <p className="text-sm font-semibold text-white/70 mb-4 self-start">Dimension Radar</p>
+            <ResponsiveContainer width="100%" height={280}>
+              <RadarChart cx="50%" cy="50%" outerRadius="72%" data={scoreData}>
+                <PolarGrid stroke="rgba(255,255,255,0.07)" />
+                <PolarAngleAxis
+                  dataKey="dimension"
+                  tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 11, fontFamily: 'Plus Jakarta Sans' }}
+                />
+                <Radar
+                  name="Score"
+                  dataKey="value"
+                  stroke="#10B981"
+                  fill="#10B981"
+                  fillOpacity={0.18}
+                  strokeWidth={2}
+                />
+                <Tooltip content={<CustomTooltip />} />
+              </RadarChart>
+            </ResponsiveContainer>
+            <div className="mt-4 w-full p-3 rounded-xl bg-green-growth/10 border border-green-growth/20 text-center">
+              <p className="text-xs text-white/50">Biggest opportunity</p>
+              <p className="text-sm font-bold text-green-growth mt-0.5">Tax Efficiency (+₹54,000/yr)</p>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Col 3: Action items */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="glass-card p-6 space-y-4"
+          >
+            <p className="text-sm font-semibold text-white/70">AI Recommendations</p>
+            {[
+              {
+                priority: 'Critical',
+                color: 'text-red-400 bg-red-400/10 border-red-400/20',
+                title: 'Claim Section 80D deductions',
+                detail: 'Missing ₹25,000 health insurance deduction under old regime.',
+              },
+              {
+                priority: 'High',
+                color: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
+                title: 'Increase term insurance cover',
+                detail: 'Current ₹50L cover is 3.2x income. Recommended: minimum 10x.',
+              },
+              {
+                priority: 'Medium',
+                color: 'text-blue-400 bg-blue-400/10 border-blue-400/20',
+                title: 'Start NPS for extra ₹50k deduction',
+                detail: 'Section 80CCD(1B) allows ₹50,000 over and above 80C limit.',
+              },
+              {
+                priority: 'Good',
+                color: 'text-green-400 bg-green-400/10 border-green-400/20',
+                title: 'Portfolio diversification is solid',
+                detail: 'Low overlap across your 5 mutual funds. No action needed.',
+              },
+            ].map(item => (
+              <div key={item.title} className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${item.color}`}>
+                    {item.priority}
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-white">{item.title}</p>
+                <p className="text-xs text-white/45 leading-relaxed">{item.detail}</p>
+              </div>
+            ))}
+
+            <button className="btn-primary w-full justify-center text-sm mt-2">
+              Get My Full Report
+            </button>
+          </motion.div>
         </div>
       </div>
     </section>

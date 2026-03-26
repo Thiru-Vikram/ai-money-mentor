@@ -1,19 +1,26 @@
-import { Routes, Route } from 'react-router-dom'
 import './index.css'
 import Navbar from './components/Navbar'
-import LandingPage from './pages/LandingPage'
-import FireCalculator from './pages/FireCalculator'
-import LifeEventAdvisor from './pages/LifeEventAdvisor'
+import HeroSection from './components/HeroSection'
+import MoneyHealthScore from './components/MoneyHealthScore'
+import FeatureBentoGrid from './components/FeatureBentoGrid'
+import PortfolioXRay from './components/PortfolioXRay'
+import SocialProof from './components/SocialProof'
+import FooterCTA from './components/FooterCTA'
 
 function App() {
+  const [isHealthScoreOpen, setIsHealthScoreOpen] = useState(false)
+
   return (
     <div className="min-h-screen overflow-x-hidden pt-16">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/fire-calculator" element={<FireCalculator />} />
-        <Route path="/life-advisor" element={<LifeEventAdvisor />} />
-      </Routes>
+      <main>
+        <HeroSection />
+        <MoneyHealthScore />
+        <FeatureBentoGrid />
+        <PortfolioXRay />
+        <SocialProof />
+      </main>
+      <FooterCTA />
     </div>
   )
 }

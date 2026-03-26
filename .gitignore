@@ -3,18 +3,41 @@
 /frontend/node_modules
 /backend/target
 
+# Node / package managers
+**/node_modules/
+**/.npm/
+**/.pnpm-store/
+**/.yarn/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
 # Build artifacts
 /frontend/dist
-/frontend/.DS_Store
+**/dist/
+**/.vite/
+**/*.tsbuildinfo
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Java / Maven / Gradle
+**/target/
+**/build/
+**/.gradle/
+**/dependency-reduced-pom.xml
+
+# Spring Boot / runtime
+**/logs/
+**/*.log
 
 # IDE files
 .vscode/
 .idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
 
 # Env files
 .env
@@ -22,3 +45,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Local tooling
+**/.classpath
+**/.project
+**/.settings/
+**/.factorypath
+
+# Salesforce / misc
+.sfdx/

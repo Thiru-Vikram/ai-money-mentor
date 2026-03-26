@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 
 const navLinks = [
   { label: 'Features', href: '/#features' },
@@ -31,20 +32,26 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 group">
+        <Link to="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 rounded-lg bg-green-growth/20 border border-green-growth/40 flex items-center justify-center group-hover:bg-green-growth/30 transition-colors">
             <Zap size={16} className="text-green-growth fill-green-growth" />
           </div>
           <span className="font-bold text-white text-base tracking-tight">
             AI<span className="text-green-growth">Money</span>Mentor
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-7">
-          {navLinks.map(l => (
-            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
-          ))}
+          {navLinks.map(l => {
+            // Check if it's an anchor link for current page scrolling logic
+            const isAnchor = l.href.startsWith('/#')
+            return isAnchor ? (
+              <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+            ) : (
+              <Link key={l.label} to={l.href} className="nav-link">{l.label}</Link>
+            )
+          })}
         </div>
 
         {/* CTA */}
@@ -75,16 +82,28 @@ export default function Navbar() {
             className="md:hidden border-t border-white/[0.06] backdrop-blur-md bg-navy-900/90"
           >
             <div className="px-4 py-4 flex flex-col gap-3">
-              {navLinks.map(l => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {l.label}
-                </a>
-              ))}
+              {navLinks.map(l => {
+                const isAnchor = l.href.startsWith('/#')
+                return isAnchor ? (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={l.label}
+                    to={l.href}
+                    className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                )
+              })}
               <button className="btn-primary mt-2 w-full justify-center">Connect CAMS</button>
             </div>
           </motion.div>

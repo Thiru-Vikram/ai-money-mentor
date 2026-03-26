@@ -4,6 +4,10 @@ import { Menu, X, Zap } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const MotionDiv = motion.div;
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, Zap } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 
 const navLinks = [
   { label: "Portfolio X-Ray", href: "/#xray" },
@@ -50,6 +54,7 @@ export default function Navbar() {
           onClick={navigateToHome}
           className="flex items-center gap-2.5 group"
         >
+        <Link to="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 rounded-lg bg-green-growth/20 border border-green-growth/40 flex items-center justify-center group-hover:bg-green-growth/30 transition-colors">
             <Zap size={16} className="text-green-growth fill-green-growth" />
           </div>
@@ -70,6 +75,15 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          {navLinks.map(l => {
+            // Check if it's an anchor link for current page scrolling logic
+            const isAnchor = l.href.startsWith('/#')
+            return isAnchor ? (
+              <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+            ) : (
+              <Link key={l.label} to={l.href} className="nav-link">{l.label}</Link>
+            )
+          })}
         </div>
 
         {/* Mobile menu toggle */}
@@ -105,6 +119,29 @@ export default function Navbar() {
                   {l.label}
                 </a>
               ))}
+              {navLinks.map(l => {
+                const isAnchor = l.href.startsWith('/#')
+                return isAnchor ? (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={l.label}
+                    to={l.href}
+                    className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                )
+              })}
+              <button className="btn-primary mt-2 w-full justify-center">Connect CAMS</button>
             </div>
           </MotionDiv>
         )}

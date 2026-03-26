@@ -34,19 +34,30 @@ function RouteScrollManager() {
 
   return null;
 }
+import { Routes, Route } from 'react-router-dom'
+import './index.css'
+import Navbar from './components/Navbar'
+import FooterCTA from './components/FooterCTA'
+import Home from './pages/Home'
+import FireCalculator from './pages/FireCalculator'
+import LifeAdvisor from './pages/LifeAdvisor'
 
 function App() {
   return (
     <div className="min-h-screen overflow-x-hidden pt-16">
       <RouteScrollManager />
       <Navbar />
+      
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<Home />} />
         <Route path="/fire-calculator" element={<FireCalculator />} />
         <Route path="/tax-optimizer" element={<TaxOptimizer />} />
         <Route path="/couples-planner" element={<CouplesMoneyPlanner />} />
         <Route path="/couple-planner" element={<CouplePlanner />} />
+        <Route path="/life-advisor" element={<LifeAdvisor />} />
       </Routes>
+      
+      <FooterCTA />
     </div>
   );
 }

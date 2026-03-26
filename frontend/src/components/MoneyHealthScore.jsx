@@ -52,7 +52,7 @@ function ScoreBar({ value, color }) {
   )
 }
 
-export default function MoneyHealthScore() {
+export default function MoneyHealthScore({ onOpenFlow }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -207,7 +207,7 @@ export default function MoneyHealthScore() {
               </div>
             ))}
 
-            <button className="btn-primary w-full justify-center text-sm mt-2">
+            <button onClick={onOpenFlow} className="btn-primary w-full justify-center text-sm mt-2">
               Get My Full Report
             </button>
           </motion.div>

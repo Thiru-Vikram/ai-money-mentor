@@ -3,6 +3,7 @@ import './index.css'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import MoneyHealthScore from './components/MoneyHealthScore'
+import TaxWizard from './components/TaxWizard'
 import FeatureBentoGrid from './components/FeatureBentoGrid'
 import PortfolioXRay from './components/PortfolioXRay'
 import SocialProof from './components/SocialProof'
@@ -18,6 +19,7 @@ function App() {
       <main>
         <HeroSection />
         <MoneyHealthScore onOpenFlow={() => setIsHealthScoreOpen(true)} />
+        <TaxWizard />
         <FeatureBentoGrid />
         <PortfolioXRay />
         <SocialProof />

@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage";
 import FireCalculator from "./pages/FireCalculator";
 import TaxOptimizer from "./pages/TaxOptimizer";
 import CouplesMoneyPlanner from "./pages/CouplesMoneyPlanner";
-import CouplePlanner from "./pages/CouplePlanner";
 
 function RouteScrollManager() {
   const { pathname, hash } = useLocation();
@@ -45,7 +44,7 @@ function App() {
         <Route path="/fire-calculator" element={<FireCalculator />} />
         <Route path="/tax-optimizer" element={<TaxOptimizer />} />
         <Route path="/couples-planner" element={<CouplesMoneyPlanner />} />
-        <Route path="/couple-planner" element={<CouplePlanner />} />
+        <Route path="/couple-planner" element={<CouplesMoneyPlanner />} />
       </Routes>
     </div>
   );

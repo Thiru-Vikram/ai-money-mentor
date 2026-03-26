@@ -1,3 +1,14 @@
+import { useState } from 'react'
+import './index.css'
+import Navbar from './components/Navbar'
+import HeroSection from './components/HeroSection'
+import MoneyHealthScore from './components/MoneyHealthScore'
+import TaxWizard from './components/TaxWizard'
+import FeatureBentoGrid from './components/FeatureBentoGrid'
+import PortfolioXRay from './components/PortfolioXRay'
+import SocialProof from './components/SocialProof'
+import FooterCTA from './components/FooterCTA'
+import MoneyHealthScoreFlow from './components/MoneyHealthScoreFlow'
 import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./index.css";
@@ -43,10 +54,20 @@ import FireCalculator from './pages/FireCalculator'
 import LifeAdvisor from './pages/LifeAdvisor'
 
 function App() {
+  const [isHealthScoreOpen, setIsHealthScoreOpen] = useState(false)
+
   return (
     <div className="min-h-screen overflow-x-hidden pt-16">
       <RouteScrollManager />
       <Navbar />
+      <main>
+        <HeroSection />
+        <MoneyHealthScore onOpenFlow={() => setIsHealthScoreOpen(true)} />
+        <TaxWizard />
+        <FeatureBentoGrid />
+        <PortfolioXRay />
+        <SocialProof />
+      </main>
       
       <Routes>
         <Route path="/" element={<Home />} />
@@ -58,6 +79,11 @@ function App() {
       </Routes>
       
       <FooterCTA />
+      
+      <MoneyHealthScoreFlow 
+        isOpen={isHealthScoreOpen} 
+        onClose={() => setIsHealthScoreOpen(false)} 
+      />
     </div>
   );
 }

@@ -1,24 +1,19 @@
+import { Routes, Route } from 'react-router-dom'
 import './index.css'
 import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import MoneyHealthScore from './components/MoneyHealthScore'
-import FeatureBentoGrid from './components/FeatureBentoGrid'
-import PortfolioXRay from './components/PortfolioXRay'
-import SocialProof from './components/SocialProof'
-import FooterCTA from './components/FooterCTA'
+import LandingPage from './pages/LandingPage'
+import FireCalculator from './pages/FireCalculator'
+import LifeEventAdvisor from './pages/LifeEventAdvisor'
 
 function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden pt-16">
       <Navbar />
-      <main>
-        <HeroSection />
-        <MoneyHealthScore />
-        <FeatureBentoGrid />
-        <PortfolioXRay />
-        <SocialProof />
-      </main>
-      <FooterCTA />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/fire-calculator" element={<FireCalculator />} />
+        <Route path="/life-advisor" element={<LifeEventAdvisor />} />
+      </Routes>
     </div>
   )
 }

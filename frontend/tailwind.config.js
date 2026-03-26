@@ -23,6 +23,9 @@ export default {
           glow: '#34D399',
           dim: '#065F46',
         },
+        blue: {
+          growth: '#3B82F6',
+        },
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],

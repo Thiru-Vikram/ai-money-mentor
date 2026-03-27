@@ -12,49 +12,49 @@ import {
 /* ─── Demo Data ─────────────────────────────────────────────────────────────── */
 const allocation = [
   { name: 'Large Cap Equity', value: 47, color: '#10B981' },
-  { name: 'Mid & Small Cap', value: 28, color: '#34D399' },
-  { name: 'Debt / Bonds', value: 14, color: '#6EE7B7' },
-  { name: 'International', value: 7, color: '#065F46' },
-  { name: 'Gold / REITs', value: 4, color: '#A7F3D0' },
+  { name: 'Mid & Small Cap',  value: 28, color: '#34D399' },
+  { name: 'Debt / Bonds',     value: 14, color: '#6EE7B7' },
+  { name: 'International',    value:  7, color: '#065F46' },
+  { name: 'Gold / REITs',     value:  4, color: '#A7F3D0' },
 ]
 
 const holdings = [
-  { fund: 'HDFC Top 100', weight: 22.4, xirr: 14.2, er: 0.52, sector: 'Large Cap', overlap: 3 },
-  { fund: 'Mirae Asset Emerging', weight: 18.1, xirr: 19.8, er: 0.54, sector: 'Mid Cap', overlap: 2 },
-  { fund: 'Parag Parikh Flexi', weight: 16.7, xirr: 17.3, er: 0.63, sector: 'Flexi Cap', overlap: 1 },
-  { fund: 'ICICI Pru BlueChip', weight: 14.9, xirr: 13.1, er: 1.05, sector: 'Large Cap', overlap: 4 },
-  { fund: 'SBI Small Cap', weight: 12.3, xirr: 22.6, er: 0.70, sector: 'Small Cap', overlap: 0 },
-  { fund: 'Axis Long Term Eq.', weight: 9.2, xirr: 11.7, er: 1.59, sector: 'ELSS', overlap: 2 },
-  { fund: 'UTI Nifty 50 Index', weight: 6.4, xirr: 12.9, er: 0.20, sector: 'Index', overlap: 1 },
+  { fund: 'HDFC Top 100',        weight: 22.4, xirr: 14.2, er: 0.52, sector: 'Large Cap',  overlap: 3 },
+  { fund: 'Mirae Asset Emerging',weight: 18.1, xirr: 19.8, er: 0.54, sector: 'Mid Cap',    overlap: 2 },
+  { fund: 'Parag Parikh Flexi',  weight: 16.7, xirr: 17.3, er: 0.63, sector: 'Flexi Cap',  overlap: 1 },
+  { fund: 'ICICI Pru BlueChip',  weight: 14.9, xirr: 13.1, er: 1.05, sector: 'Large Cap',  overlap: 4 },
+  { fund: 'SBI Small Cap',       weight: 12.3, xirr: 22.6, er: 0.70, sector: 'Small Cap',  overlap: 0 },
+  { fund: 'Axis Long Term Eq.',  weight:  9.2, xirr: 11.7, er: 1.59, sector: 'ELSS',       overlap: 2 },
+  { fund: 'UTI Nifty 50 Index',  weight:  6.4, xirr: 12.9, er: 0.20, sector: 'Index',      overlap: 1 },
 ]
 
 const benchmark = [
   { label: 'Your Portfolio', xirr: 16.1, color: '#10B981' },
-  { label: 'Nifty 50', xirr: 12.8, color: '#334155' },
-  { label: 'Sensex', xirr: 12.4, color: '#334155' },
-  { label: 'Category Avg', xirr: 13.6, color: '#334155' },
+  { label: 'Nifty 50',       xirr: 12.8, color: '#334155' },
+  { label: 'Sensex',         xirr: 12.4, color: '#334155' },
+  { label: 'Category Avg',   xirr: 13.6, color: '#334155' },
 ]
 
 const overlappingStocks = [
-  { stock: 'HDFC Bank', funds: 5, weight: '8.2%' },
-  { stock: 'Infosys', funds: 4, weight: '5.7%' },
-  { stock: 'Reliance Ind.', funds: 4, weight: '4.9%' },
-  { stock: 'ICICI Bank', funds: 3, weight: '6.1%' },
+  { stock: 'HDFC Bank',    funds: 5, weight: '8.2%' },
+  { stock: 'Infosys',      funds: 4, weight: '5.7%' },
+  { stock: 'Reliance Ind.',funds: 4, weight: '4.9%' },
+  { stock: 'ICICI Bank',   funds: 3, weight: '6.1%' },
 ]
 
-const portfolioXirr = 16.1
+const portfolioXirr    = 16.1
 const totalExpenseDrag = 0.78   // % p.a. weighted avg ER
-const overlapScore = 68     // 0–100, lower is better
-const totalValue = 18.4   // ₹ lakhs
+const overlapScore     = 68     // 0–100, lower is better
+const totalValue       = 18.4   // ₹ lakhs
 
 /* ─── Helpers ───────────────────────────────────────────────────────────────── */
 const sectorColor = {
   'Large Cap': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
-  'Mid Cap': 'text-purple-400 bg-purple-400/10 border-purple-400/20',
+  'Mid Cap':   'text-purple-400 bg-purple-400/10 border-purple-400/20',
   'Flexi Cap': 'text-teal-400 bg-teal-400/10 border-teal-400/20',
   'Small Cap': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
-  'ELSS': 'text-pink-400 bg-pink-400/10 border-pink-400/20',
-  'Index': 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
+  'ELSS':      'text-pink-400 bg-pink-400/10 border-pink-400/20',
+  'Index':     'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
 }
 
 function PieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
@@ -95,9 +95,9 @@ const BarTooltip = ({ active, payload, label }) => {
 /* ─── Upload State ──────────────────────────────────────────────────────────── */
 function UploadOverlay({ onDismiss }) {
   const [dragging, setDragging] = useState(false)
-  const [file, setFile] = useState(null)
+  const [file, setFile]         = useState(null)
   const [scanning, setScanning] = useState(false)
-  const [done, setDone] = useState(false)
+  const [done, setDone]         = useState(false)
 
   const handleFile = (f) => {
     if (!f) return
@@ -191,7 +191,7 @@ function UploadOverlay({ onDismiss }) {
 
 /* ─── Main Component ────────────────────────────────────────────────────────── */
 export default function PortfolioXRay() {
-  const ref = useRef(null)
+  const ref    = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [showUpload, setShowUpload] = useState(false)
 
@@ -245,10 +245,10 @@ export default function PortfolioXRay() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Portfolio Value', value: `₹${totalValue}L`, sub: 'across 7 funds', icon: <TrendingUp size={14} className="text-green-growth" /> },
-            { label: 'True XIRR', value: `${portfolioXirr}%`, sub: '+3.3% vs category avg', icon: <TrendingUp size={14} className="text-green-growth" /> },
-            { label: 'Expense Drag', value: `${totalExpenseDrag}%`, sub: '₹14,352/yr eroded', icon: <TrendingDown size={14} className="text-red-400" /> },
-            { label: 'Overlap Score', value: `${overlapScore}/100`, sub: 'Moderate — action needed', icon: <AlertTriangle size={14} className="text-yellow-400" /> },
+            { label: 'Portfolio Value',  value: `₹${totalValue}L`,     sub: 'across 7 funds',           icon: <TrendingUp size={14} className="text-green-growth" /> },
+            { label: 'True XIRR',        value: `${portfolioXirr}%`,   sub: '+3.3% vs category avg',    icon: <TrendingUp size={14} className="text-green-growth" /> },
+            { label: 'Expense Drag',     value: `${totalExpenseDrag}%`, sub: '₹14,352/yr eroded',        icon: <TrendingDown size={14} className="text-red-400" /> },
+            { label: 'Overlap Score',    value: `${overlapScore}/100`,  sub: 'Moderate — action needed', icon: <AlertTriangle size={14} className="text-yellow-400" /> },
           ].map((s, i) => (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 12 }}
@@ -467,8 +467,8 @@ export default function PortfolioXRay() {
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
                   { label: 'Annual Saving', value: '₹23.5K' },
-                  { label: 'XIRR Gain', value: '+1.8%' },
-                  { label: 'Risk Reduced', value: '↓ 12%' },
+                  { label: 'XIRR Gain',     value: '+1.8%' },
+                  { label: 'Risk Reduced',  value: '↓ 12%' },
                 ].map(m => (
                   <div key={m.label}>
                     <p className="text-sm font-extrabold text-green-growth">{m.value}</p>

@@ -221,7 +221,7 @@ export default function TaxWizard() {
                 rows={inputValue.split('\n').length > 1 ? Math.min(6, inputValue.split('\n').length) : 1}
               />
               <button 
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!inputValue.trim() || isLoading}
                 className="absolute right-2 bottom-2 p-2 rounded-lg bg-navy-900 text-white hover:bg-navy-800 disabled:opacity-50 disabled:hover:bg-navy-900 transition-colors"
               >

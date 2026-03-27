@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Tax Wizard', href: '#tax' },
   { label: 'Features', href: '#features' },
   { label: 'Life Advisor', href: '#advisor' },
+  { label: 'Couple Planner', href: '#couples' },
   { label: 'Portfolio X-Ray', href: '#xray' },
   { label: 'FIRE Planner', href: '#fire' },
 ]

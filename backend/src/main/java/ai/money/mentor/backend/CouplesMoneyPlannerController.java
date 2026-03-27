@@ -5,18 +5,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/life-event")
+@RequestMapping("/api/couples-planner")
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
-public class LifeEventAdvisorController {
+public class CouplesMoneyPlannerController {
 
-    private final LifeEventAdvisorService advisorService;
+    private final CouplesMoneyPlannerService plannerService;
 
-    public LifeEventAdvisorController(LifeEventAdvisorService advisorService) {
-        this.advisorService = advisorService;
+    public CouplesMoneyPlannerController(CouplesMoneyPlannerService plannerService) {
+        this.plannerService = plannerService;
     }
 
-    @PostMapping("/advise")
-    public ResponseEntity<String> getAdvisory(@RequestBody Map<String, String> request) {
+    @PostMapping("/insights")
+    public ResponseEntity<String> getInsights(@RequestBody Map<String, String> request) {
         String prompt = request.get("prompt");
 
         if (prompt == null || prompt.isBlank()) {
@@ -24,7 +24,7 @@ public class LifeEventAdvisorController {
         }
 
         try {
-            String aiResponse = advisorService.generateAdvisory(prompt);
+            String aiResponse = plannerService.generateInsights(prompt);
             return ResponseEntity.ok(aiResponse);
         } catch (Exception e) {
             e.printStackTrace();

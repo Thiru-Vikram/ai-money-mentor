@@ -2,11 +2,6 @@ import { useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 import { ArrowRight, TrendingUp, Shield, Sparkles } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-
-const MotionDiv = motion.div
-const MotionSpan = motion.span
-const MotionP = motion.p
 
 // Animated counter that smoothly transitions between numbers
 function AnimatedCounter({ value, prefix = '₹', suffix = '' }) {
@@ -26,7 +21,7 @@ function AnimatedCounter({ value, prefix = '₹', suffix = '' }) {
     return ctrl.stop
   }, [value]) // eslint-disable-line
 
-  return <MotionSpan className="tabular-nums">{rounded}</MotionSpan>
+  return <motion.span className="tabular-nums">{rounded}</motion.span>
 }
 
 // Compute monthly SIP for target corpus
@@ -43,7 +38,6 @@ function computeSIP(retireAge, currentAge = 28, monthlyExpense = 50000) {
 }
 
 export default function HeroSection() {
-  const navigate = useNavigate()
   const [retireAge, setRetireAge] = useState(45)
   const sip = computeSIP(retireAge)
 
@@ -62,7 +56,7 @@ export default function HeroSection() {
   }, []) // eslint-disable-line
 
   return (
-    <section id="top" className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 overflow-hidden">
       {/* Dot grid background */}
       <div className="absolute inset-0 grid-dot-bg opacity-40 pointer-events-none" />
 
@@ -74,7 +68,7 @@ export default function HeroSection() {
 
           {/* LEFT: Copy */}
           <div className="space-y-7">
-            <MotionDiv
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -92,33 +86,25 @@ export default function HeroSection() {
                 The AI-powered mentor that turns India's savers into confident investors.
                 Get your FIRE path in <span className="text-green-growth font-semibold">60 seconds</span>.
               </p>
-            </MotionDiv>
+            </motion.div>
 
-            <MotionDiv
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
               className="flex flex-wrap items-center gap-3"
             >
-              <button
-                type="button"
-                onClick={() => navigate('/fire-calculator')}
-                className="btn-primary flex items-center gap-2 px-6 py-3 text-sm"
-              >
+              <button className="btn-primary flex items-center gap-2 px-6 py-3 text-sm">
                 Get My FIRE Plan <ArrowRight size={15} />
               </button>
-              <button
-                type="button"
-                onClick={() => navigate({ pathname: '/', hash: '#health' })}
-                className="btn-ghost flex items-center gap-2 px-5 py-3 text-sm"
-              >
+              <button className="btn-ghost flex items-center gap-2 px-5 py-3 text-sm">
                 <Shield size={14} className="text-green-growth" />
                 Take Health Quiz
               </button>
-            </MotionDiv>
+            </motion.div>
 
             {/* Trust badges */}
-            <MotionDiv
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -134,11 +120,11 @@ export default function HeroSection() {
                   {b.label}
                 </div>
               ))}
-            </MotionDiv>
+            </motion.div>
           </div>
 
           {/* RIGHT: Interactive FIRE Slider card */}
-          <MotionDiv
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -212,7 +198,7 @@ export default function HeroSection() {
                 <div className="mt-0.5 w-2 h-2 rounded-full bg-green-growth animate-pulse flex-shrink-0" />
                 <div>
                   <p className="text-xs text-white/30 font-mono mb-0.5">AI Agent</p>
-                  <MotionP
+                  <motion.p
                     key={msgIdx}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -221,11 +207,11 @@ export default function HeroSection() {
                     className="text-xs text-white/60 font-mono"
                   >
                     {agentMessages[msgIdx]}
-                  </MotionP>
+                  </motion.p>
                 </div>
               </div>
             </div>
-          </MotionDiv>
+          </motion.div>
         </div>
       </div>
     </section>

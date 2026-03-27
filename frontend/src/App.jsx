@@ -6,6 +6,7 @@ import MoneyHealthScore from './components/MoneyHealthScore'
 import TaxWizard from './components/TaxWizard'
 import FeatureBentoGrid from './components/FeatureBentoGrid'
 import PortfolioXRay from './components/PortfolioXRay'
+import FirePathPlanner from './components/FirePathPlanner'
 import SocialProof from './components/SocialProof'
 import FooterCTA from './components/FooterCTA'
 import MoneyHealthScoreFlow from './components/MoneyHealthScoreFlow'
@@ -22,6 +23,7 @@ function App() {
         <TaxWizard />
         <FeatureBentoGrid />
         <PortfolioXRay />
+        <FirePathPlanner />
         <SocialProof />
       </main>
       <FooterCTA />

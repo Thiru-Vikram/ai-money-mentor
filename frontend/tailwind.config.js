@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        cream: '#F5F3EF',
         navy: {
           950: '#040D1F',
           900: '#0A192F',
@@ -15,8 +16,8 @@ export default {
           600: '#1A3550',
         },
         slate: {
-          glass: 'rgba(255,255,255,0.05)',
-          border: 'rgba(255,255,255,0.08)',
+          glass: 'rgba(10,25,47,0.03)',
+          border: 'rgba(10,25,47,0.08)',
         },
         green: {
           growth: '#10B981',

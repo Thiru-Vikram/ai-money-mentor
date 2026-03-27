@@ -23,18 +23,18 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'backdrop-blur-md bg-navy-900/80 border-b border-white/[0.06] shadow-xl shadow-black/20'
+          ? 'bg-cream/90 backdrop-blur-md border-b border-navy-900/[0.06] shadow-sm'
           : 'bg-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-green-growth/20 border border-green-growth/40 flex items-center justify-center group-hover:bg-green-growth/30 transition-colors">
-            <Zap size={16} className="text-green-growth fill-green-growth" />
+          <div className="w-8 h-8 rounded-lg bg-navy-900/10 border border-navy-900/20 flex items-center justify-center group-hover:bg-navy-900/15 transition-colors">
+            <Zap size={16} className="text-navy-900" />
           </div>
-          <span className="font-bold text-white text-base tracking-tight">
-            AI<span className="text-green-growth">Money</span>Mentor
+          <span className="font-bold text-navy-900 text-base tracking-tight">
+            AI<span className="text-navy-600">Money</span>Mentor
           </span>
         </a>
 
@@ -49,14 +49,14 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <button className="btn-ghost text-xs px-4 py-2">Log in</button>
           <button className="btn-primary text-xs px-4 py-2 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-navy-900 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             Connect CAMS
           </button>
         </div>
 
         {/* Mobile menu toggle */}
         <button
-          className="md:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/[0.05] transition-colors"
+          className="md:hidden p-2 rounded-lg text-navy-900/70 hover:text-navy-900 hover:bg-navy-900/[0.05] transition-colors"
           onClick={() => setMenuOpen(v => !v)}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -70,14 +70,14 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/[0.06] backdrop-blur-md bg-navy-900/90"
+            className="md:hidden border-t border-navy-900/[0.06] bg-cream/95 backdrop-blur-md"
           >
             <div className="px-4 py-4 flex flex-col gap-3">
               {navLinks.map(l => (
                 <a
                   key={l.label}
                   href={l.href}
-                  className="text-white/70 hover:text-white py-2 text-sm font-medium border-b border-white/[0.05]"
+                  className="text-navy-900/70 hover:text-navy-900 py-2 text-sm font-medium border-b border-navy-900/[0.05]"
                   onClick={() => setMenuOpen(false)}
                 >
                   {l.label}

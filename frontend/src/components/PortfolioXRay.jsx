@@ -11,11 +11,11 @@ import {
 
 /* ─── Demo Data ─────────────────────────────────────────────────────────────── */
 const allocation = [
-  { name: 'Large Cap Equity', value: 47, color: '#10B981' },
-  { name: 'Mid & Small Cap',  value: 28, color: '#34D399' },
-  { name: 'Debt / Bonds',     value: 14, color: '#6EE7B7' },
-  { name: 'International',    value:  7, color: '#065F46' },
-  { name: 'Gold / REITs',     value:  4, color: '#A7F3D0' },
+  { name: 'Large Cap Equity', value: 47, color: '#0A192F' },
+  { name: 'Mid & Small Cap',  value: 28, color: '#1A3550' },
+  { name: 'Debt / Bonds',     value: 14, color: '#6B7280' },
+  { name: 'International',    value:  7, color: '#9CA3AF' },
+  { name: 'Gold / REITs',     value:  4, color: '#D1D5DB' },
 ]
 
 const holdings = [
@@ -29,10 +29,10 @@ const holdings = [
 ]
 
 const benchmark = [
-  { label: 'Your Portfolio', xirr: 16.1, color: '#10B981' },
-  { label: 'Nifty 50',       xirr: 12.8, color: '#334155' },
-  { label: 'Sensex',         xirr: 12.4, color: '#334155' },
-  { label: 'Category Avg',   xirr: 13.6, color: '#334155' },
+  { label: 'Your Portfolio', xirr: 16.1, color: '#0A192F' },
+  { label: 'Nifty 50',       xirr: 12.8, color: '#D1D5DB' },
+  { label: 'Sensex',         xirr: 12.4, color: '#D1D5DB' },
+  { label: 'Category Avg',   xirr: 13.6, color: '#D1D5DB' },
 ]
 
 const overlappingStocks = [
@@ -43,18 +43,18 @@ const overlappingStocks = [
 ]
 
 const portfolioXirr    = 16.1
-const totalExpenseDrag = 0.78   // % p.a. weighted avg ER
-const overlapScore     = 68     // 0–100, lower is better
-const totalValue       = 18.4   // ₹ lakhs
+const totalExpenseDrag = 0.78
+const overlapScore     = 68
+const totalValue       = 18.4
 
 /* ─── Helpers ───────────────────────────────────────────────────────────────── */
 const sectorColor = {
-  'Large Cap': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
-  'Mid Cap':   'text-purple-400 bg-purple-400/10 border-purple-400/20',
-  'Flexi Cap': 'text-teal-400 bg-teal-400/10 border-teal-400/20',
-  'Small Cap': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
-  'ELSS':      'text-pink-400 bg-pink-400/10 border-pink-400/20',
-  'Index':     'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
+  'Large Cap': 'text-blue-600 bg-blue-50 border-blue-200',
+  'Mid Cap':   'text-purple-600 bg-purple-50 border-purple-200',
+  'Flexi Cap': 'text-teal-600 bg-teal-50 border-teal-200',
+  'Small Cap': 'text-orange-600 bg-orange-50 border-orange-200',
+  'ELSS':      'text-pink-600 bg-pink-50 border-pink-200',
+  'Index':     'text-cyan-600 bg-cyan-50 border-cyan-200',
 }
 
 function PieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
@@ -75,9 +75,9 @@ const PieTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null
   const d = payload[0]
   return (
-    <div className="bg-navy-800/90 border border-white/10 backdrop-blur-md rounded-xl px-3 py-2 text-xs">
-      <p className="text-white font-semibold">{d.name}</p>
-      <p style={{ color: d.payload.color }}>{d.value}%</p>
+    <div className="bg-white border border-navy-900/10 shadow-lg rounded-xl px-3 py-2 text-xs">
+      <p className="text-navy-900 font-semibold">{d.name}</p>
+      <p style={{ color: d.payload.color }} className="font-bold">{d.value}%</p>
     </div>
   )
 }
@@ -85,9 +85,9 @@ const PieTooltip = ({ active, payload }) => {
 const BarTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-navy-800/90 border border-white/10 backdrop-blur-md rounded-xl px-3 py-2 text-xs">
-      <p className="text-white/60 mb-1">{label}</p>
-      <p className="text-green-growth font-bold">{payload[0].value}% XIRR</p>
+    <div className="bg-white border border-navy-900/10 shadow-lg rounded-xl px-3 py-2 text-xs">
+      <p className="text-navy-900/60 mb-1">{label}</p>
+      <p className="text-navy-900 font-bold">{payload[0].value}% XIRR</p>
     </div>
   )
 }
@@ -109,24 +109,24 @@ function UploadOverlay({ onDismiss }) {
 
   return (
     <motion.div
-      className="absolute inset-0 z-20 flex items-center justify-center bg-navy-900/80 backdrop-blur-sm rounded-2xl"
+      className="absolute inset-0 z-20 flex items-center justify-center bg-cream/80 backdrop-blur-sm rounded-2xl"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <div className="glass-card p-8 max-w-md w-full mx-4 text-center relative">
         <button onClick={onDismiss}
-          className="absolute top-4 right-4 text-white/30 hover:text-white/70 transition-colors">
+          className="absolute top-4 right-4 text-navy-900/30 hover:text-navy-900/70 transition-colors">
           <X size={16} />
         </button>
 
         {!file && !scanning && !done && (
           <>
-            <div className="w-14 h-14 rounded-2xl bg-green-growth/10 border border-green-growth/20
+            <div className="w-14 h-14 rounded-2xl bg-navy-900/[0.06] border border-navy-900/10
               flex items-center justify-center mx-auto mb-5">
-              <Upload size={24} className="text-green-growth" />
+              <Upload size={24} className="text-navy-900/60" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Upload Your Statement</h3>
-            <p className="text-white/50 text-sm mb-6 leading-relaxed">
-              Supports <span className="text-white font-medium">CAMS</span> and{' '}
-              <span className="text-white font-medium">KFintech</span> consolidated account
+            <h3 className="text-lg font-bold text-navy-900 mb-2">Upload Your Statement</h3>
+            <p className="text-navy-900/50 text-sm mb-6 leading-relaxed">
+              Supports <span className="text-navy-900 font-medium">CAMS</span> and{' '}
+              <span className="text-navy-900 font-medium">KFintech</span> consolidated account
               statements (PDF or XLSX). Your data never leaves your device.
             </p>
             <div
@@ -134,11 +134,11 @@ function UploadOverlay({ onDismiss }) {
               onDragLeave={() => setDragging(false)}
               onDrop={e => { e.preventDefault(); setDragging(false); handleFile(e.dataTransfer.files[0]) }}
               className={`border-2 border-dashed rounded-xl p-8 transition-all duration-200 cursor-pointer
-                ${dragging ? 'border-green-growth/60 bg-green-growth/5' : 'border-white/10 hover:border-white/25'}`}
+                ${dragging ? 'border-navy-900/40 bg-navy-900/[0.04]' : 'border-navy-900/15 hover:border-navy-900/25'}`}
               onClick={() => document.getElementById('xray-file-input').click()}>
-              <FileText size={32} className="mx-auto mb-3 text-white/20" />
-              <p className="text-white/40 text-sm">Drag & drop or <span className="text-green-growth">browse</span></p>
-              <p className="text-white/25 text-xs mt-1">PDF, XLSX — max 10 MB</p>
+              <FileText size={32} className="mx-auto mb-3 text-navy-900/20" />
+              <p className="text-navy-900/40 text-sm">Drag & drop or <span className="text-navy-900 font-medium">browse</span></p>
+              <p className="text-navy-900/25 text-xs mt-1">PDF, XLSX — max 10 MB</p>
             </div>
             <input id="xray-file-input" type="file" accept=".pdf,.xlsx,.xls" className="hidden"
               onChange={e => handleFile(e.target.files[0])} />
@@ -147,24 +147,24 @@ function UploadOverlay({ onDismiss }) {
 
         {file && scanning && (
           <div className="py-4">
-            <div className="w-14 h-14 rounded-2xl bg-green-growth/10 border border-green-growth/20
+            <div className="w-14 h-14 rounded-2xl bg-navy-900/[0.06] border border-navy-900/10
               flex items-center justify-center mx-auto mb-5 relative">
-              <ScanSearch size={24} className="text-green-growth" />
+              <ScanSearch size={24} className="text-navy-900/60" />
               <motion.div
-                className="absolute inset-0 rounded-2xl border-2 border-green-growth"
+                className="absolute inset-0 rounded-2xl border-2 border-navy-900/30"
                 animate={{ scale: [1, 1.3, 1], opacity: [1, 0, 1] }}
                 transition={{ repeat: Infinity, duration: 1.2 }} />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">Analysing Portfolio…</h3>
-            <p className="text-white/40 text-sm mb-6">{file.name}</p>
+            <h3 className="text-lg font-bold text-navy-900 mb-2">Analysing Portfolio…</h3>
+            <p className="text-navy-900/40 text-sm mb-6">{file.name}</p>
             <div className="space-y-2 text-left">
               {['Reconstructing transactions…', 'Calculating XIRR…', 'Running overlap analysis…', 'Generating AI insights…'].map((step, i) => (
                 <motion.div key={step}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.55 }}
-                  className="flex items-center gap-2 text-xs text-white/50">
-                  <motion.div className="w-1.5 h-1.5 rounded-full bg-green-growth"
+                  className="flex items-center gap-2 text-xs text-navy-900/50">
+                  <motion.div className="w-1.5 h-1.5 rounded-full bg-navy-900"
                     animate={{ scale: [1, 1.5, 1] }}
                     transition={{ delay: i * 0.55, repeat: 1, duration: 0.4 }} />
                   {step}
@@ -176,12 +176,12 @@ function UploadOverlay({ onDismiss }) {
 
         {done && (
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-4">
-            <div className="w-14 h-14 rounded-2xl bg-green-growth/20 border border-green-growth/40
+            <div className="w-14 h-14 rounded-2xl bg-green-50 border border-green-200
               flex items-center justify-center mx-auto mb-5">
-              <ShieldCheck size={24} className="text-green-growth" />
+              <ShieldCheck size={24} className="text-green-600" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">X-Ray Complete!</h3>
-            <p className="text-white/50 text-sm">Your full report is ready. Loading results…</p>
+            <h3 className="text-lg font-bold text-navy-900 mb-2">X-Ray Complete!</h3>
+            <p className="text-navy-900/50 text-sm">Your full report is ready. Loading results…</p>
           </motion.div>
         )}
       </div>
@@ -199,10 +199,6 @@ export default function PortfolioXRay() {
     <section id="xray" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 grid-dot-bg opacity-20 pointer-events-none" />
 
-      {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px]
-        bg-green-growth/5 rounded-full blur-3xl pointer-events-none" />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ── */}
@@ -216,12 +212,12 @@ export default function PortfolioXRay() {
             <ScanSearch size={11} />
             MF Portfolio X-Ray
           </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-navy-900">
             10-Second Portfolio <span className="gradient-text">Reconstruction</span>
           </h2>
-          <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base leading-relaxed">
-            Upload your <span className="text-white font-medium">CAMS</span> or{' '}
-            <span className="text-white font-medium">KFintech</span> statement and instantly get
+          <p className="mt-4 text-navy-900/50 max-w-2xl mx-auto text-base leading-relaxed">
+            Upload your <span className="text-navy-900 font-medium">CAMS</span> or{' '}
+            <span className="text-navy-900 font-medium">KFintech</span> statement and instantly get
             true XIRR, overlap analysis, expense drag, benchmark comparison, and an
             AI-generated rebalancing plan.
           </p>
@@ -235,7 +231,7 @@ export default function PortfolioXRay() {
             <Upload size={16} />
             Upload Statement — Free
           </motion.button>
-          <p className="mt-3 text-white/25 text-xs">Supports CAMS · KFintech · Results in &lt;10 seconds</p>
+          <p className="mt-3 text-navy-900/25 text-xs">Supports CAMS · KFintech · Results in &lt;10 seconds</p>
         </motion.div>
 
         {/* ── Stats strip ── */}
@@ -245,21 +241,21 @@ export default function PortfolioXRay() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Portfolio Value',  value: `₹${totalValue}L`,     sub: 'across 7 funds',           icon: <TrendingUp size={14} className="text-green-growth" /> },
-            { label: 'True XIRR',        value: `${portfolioXirr}%`,   sub: '+3.3% vs category avg',    icon: <TrendingUp size={14} className="text-green-growth" /> },
-            { label: 'Expense Drag',     value: `${totalExpenseDrag}%`, sub: '₹14,352/yr eroded',        icon: <TrendingDown size={14} className="text-red-400" /> },
-            { label: 'Overlap Score',    value: `${overlapScore}/100`,  sub: 'Moderate — action needed', icon: <AlertTriangle size={14} className="text-yellow-400" /> },
+            { label: 'Portfolio Value',  value: `₹${totalValue}L`,     sub: 'across 7 funds',           icon: <TrendingUp size={14} className="text-navy-900/40" /> },
+            { label: 'True XIRR',        value: `${portfolioXirr}%`,   sub: '+3.3% vs category avg',    icon: <TrendingUp size={14} className="text-green-600" /> },
+            { label: 'Expense Drag',     value: `${totalExpenseDrag}%`, sub: '₹14,352/yr eroded',        icon: <TrendingDown size={14} className="text-red-500" /> },
+            { label: 'Overlap Score',    value: `${overlapScore}/100`,  sub: 'Moderate — action needed', icon: <AlertTriangle size={14} className="text-amber-500" /> },
           ].map((s, i) => (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 12 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.15 + i * 0.07 }}
               className="glass-card p-4">
-              <div className="flex items-center gap-1.5 text-white/40 text-xs mb-1.5">
+              <div className="flex items-center gap-1.5 text-navy-900/40 text-xs mb-1.5">
                 {s.icon}{s.label}
               </div>
-              <p className="text-2xl font-extrabold text-white">{s.value}</p>
-              <p className="text-xs text-white/35 mt-0.5">{s.sub}</p>
+              <p className="text-2xl font-extrabold text-navy-900">{s.value}</p>
+              <p className="text-xs text-navy-900/35 mt-0.5">{s.sub}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -279,7 +275,7 @@ export default function PortfolioXRay() {
 
             {/* Donut */}
             <div className="glass-card p-5">
-              <p className="text-sm font-semibold text-white/70 mb-4">Asset Allocation</p>
+              <p className="text-sm font-semibold text-navy-900/70 mb-4">Asset Allocation</p>
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie
@@ -303,9 +299,9 @@ export default function PortfolioXRay() {
                   <div key={a.name} className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: a.color }} />
-                      <span className="text-white/55">{a.name}</span>
+                      <span className="text-navy-900/55">{a.name}</span>
                     </div>
-                    <span className="font-bold text-white">{a.value}%</span>
+                    <span className="font-bold text-navy-900">{a.value}%</span>
                   </div>
                 ))}
               </div>
@@ -314,25 +310,25 @@ export default function PortfolioXRay() {
             {/* Overlap detector */}
             <div className="glass-card p-5">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-sm font-semibold text-white/70">Stock Overlap</p>
+                <p className="text-sm font-semibold text-navy-900/70">Stock Overlap</p>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border
-                  text-yellow-400 bg-yellow-400/10 border-yellow-400/20">Moderate</span>
+                  text-amber-600 bg-amber-50 border-amber-200">Moderate</span>
               </div>
-              <p className="text-xs text-white/40 mb-3 leading-relaxed">
+              <p className="text-xs text-navy-900/40 mb-3 leading-relaxed">
                 These stocks appear across 3+ of your funds — you're more concentrated than you think.
               </p>
               <div className="space-y-2">
                 {overlappingStocks.map(s => (
                   <div key={s.stock}
-                    className="flex items-center justify-between p-2.5 rounded-lg bg-yellow-400/[0.04]
-                      border border-yellow-400/[0.12] text-xs">
+                    className="flex items-center justify-between p-2.5 rounded-lg bg-amber-50/50
+                      border border-amber-200/60 text-xs">
                     <div className="flex items-center gap-2">
-                      <AlertTriangle size={11} className="text-yellow-400 flex-shrink-0" />
-                      <span className="text-white font-medium">{s.stock}</span>
+                      <AlertTriangle size={11} className="text-amber-500 flex-shrink-0" />
+                      <span className="text-navy-900 font-medium">{s.stock}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-white/45">
+                    <div className="flex items-center gap-3 text-navy-900/45">
                       <span>{s.funds} funds</span>
-                      <span className="font-bold text-white/70">{s.weight}</span>
+                      <span className="font-bold text-navy-900/70">{s.weight}</span>
                     </div>
                   </div>
                 ))}
@@ -349,28 +345,28 @@ export default function PortfolioXRay() {
 
             {/* Holdings */}
             <div className="glass-card p-5">
-              <p className="text-sm font-semibold text-white/70 mb-4">Your Holdings</p>
+              <p className="text-sm font-semibold text-navy-900/70 mb-4">Your Holdings</p>
               <div className="space-y-2">
                 {holdings.map((h, i) => (
                   <motion.div key={h.fund}
                     initial={{ opacity: 0, x: -8 }}
                     animate={inView ? { opacity: 1, x: 0 } : {}}
                     transition={{ delay: 0.35 + i * 0.06 }}
-                    className={`p-3 rounded-xl border transition-all duration-200 hover:bg-white/[0.04]
-                      ${h.overlap >= 3 ? 'border-yellow-400/20 bg-yellow-400/[0.03]' : 'border-white/[0.06] bg-white/[0.02]'}`}>
+                    className={`p-3 rounded-xl border transition-all duration-200 hover:bg-navy-900/[0.02]
+                      ${h.overlap >= 3 ? 'border-amber-200 bg-amber-50/30' : 'border-navy-900/[0.06] bg-navy-900/[0.01]'}`}>
                     <div className="flex items-start justify-between gap-2 mb-1.5">
                       <div className="flex items-center gap-1.5 min-w-0">
-                        {h.overlap >= 3 && <AlertTriangle size={10} className="text-yellow-400 flex-shrink-0 mt-0.5" />}
-                        <span className="text-xs font-semibold text-white truncate">{h.fund}</span>
+                        {h.overlap >= 3 && <AlertTriangle size={10} className="text-amber-500 flex-shrink-0 mt-0.5" />}
+                        <span className="text-xs font-semibold text-navy-900 truncate">{h.fund}</span>
                       </div>
                       <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border flex-shrink-0 ${sectorColor[h.sector]}`}>
                         {h.sector}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 text-[10px] text-white/45">
-                      <span className="font-bold text-white/75">{h.weight}%</span>
-                      <span>XIRR <span className="text-green-growth font-bold">{h.xirr}%</span></span>
-                      <span>ER <span className={`font-bold ${h.er > 1 ? 'text-red-400' : 'text-white/60'}`}>{h.er}%</span></span>
+                    <div className="flex items-center gap-3 text-[10px] text-navy-900/45">
+                      <span className="font-bold text-navy-900/75">{h.weight}%</span>
+                      <span>XIRR <span className="text-green-600 font-bold">{h.xirr}%</span></span>
+                      <span>ER <span className={`font-bold ${h.er > 1 ? 'text-red-500' : 'text-navy-900/60'}`}>{h.er}%</span></span>
                     </div>
                   </motion.div>
                 ))}
@@ -379,15 +375,15 @@ export default function PortfolioXRay() {
 
             {/* Benchmark bar chart */}
             <div className="glass-card p-5">
-              <p className="text-sm font-semibold text-white/70 mb-1">Benchmark Comparison</p>
-              <p className="text-xs text-white/35 mb-4">5Y XIRR vs indices</p>
+              <p className="text-sm font-semibold text-navy-900/70 mb-1">Benchmark Comparison</p>
+              <p className="text-xs text-navy-900/35 mb-4">5Y XIRR vs indices</p>
               <ResponsiveContainer width="100%" height={150}>
                 <BarChart data={benchmark} barSize={28}
                   margin={{ top: 0, right: 0, left: -28, bottom: 0 }}>
-                  <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="label" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 10, fontFamily: 'Plus Jakarta Sans' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} domain={[10, 20]} unit="%" />
-                  <Tooltip content={<BarTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+                  <CartesianGrid vertical={false} stroke="rgba(10,25,47,0.05)" />
+                  <XAxis dataKey="label" tick={{ fill: 'rgba(10,25,47,0.45)', fontSize: 10, fontFamily: 'Plus Jakarta Sans' }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fill: 'rgba(10,25,47,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} domain={[10, 20]} unit="%" />
+                  <Tooltip content={<BarTooltip />} cursor={{ fill: 'rgba(10,25,47,0.03)' }} />
                   <Bar dataKey="xirr" radius={[4, 4, 0, 0]}>
                     {benchmark.map((entry) => (
                       <Cell key={entry.label} fill={entry.color} />
@@ -395,9 +391,9 @@ export default function PortfolioXRay() {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              <div className="mt-3 p-2.5 rounded-lg bg-green-growth/10 border border-green-growth/20 text-center">
-                <p className="text-[10px] text-white/40">Your alpha over Nifty 50</p>
-                <p className="text-sm font-extrabold text-green-growth mt-0.5">+3.3% per year</p>
+              <div className="mt-3 p-2.5 rounded-lg bg-navy-900/[0.03] border border-navy-900/[0.06] text-center">
+                <p className="text-[10px] text-navy-900/40">Your alpha over Nifty 50</p>
+                <p className="text-sm font-extrabold text-navy-900 mt-0.5">+3.3% per year</p>
               </div>
             </div>
           </motion.div>
@@ -410,60 +406,60 @@ export default function PortfolioXRay() {
             className="glass-card p-5 space-y-4">
 
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-green-growth/15 border border-green-growth/25 flex items-center justify-center">
-                <Zap size={13} className="text-green-growth" />
+              <div className="w-7 h-7 rounded-lg bg-navy-900/[0.06] border border-navy-900/10 flex items-center justify-center">
+                <Zap size={13} className="text-navy-900/60" />
               </div>
-              <p className="text-sm font-semibold text-white/70">AI Rebalancing Plan</p>
+              <p className="text-sm font-semibold text-navy-900/70">AI Rebalancing Plan</p>
             </div>
 
             {/* Expense ratio alert */}
-            <div className="p-3 rounded-xl bg-red-400/[0.06] border border-red-400/20 space-y-1">
+            <div className="p-3 rounded-xl bg-red-50/60 border border-red-200 space-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-red-400 bg-red-400/10 border-red-400/20">Critical</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-red-600 bg-red-50 border-red-200">Critical</span>
               </div>
-              <p className="text-sm font-semibold text-white">Switch to Direct Plans</p>
-              <p className="text-xs text-white/45 leading-relaxed">
-                Axis ELSS charges <span className="text-red-400 font-medium">1.59% ER</span>. Switching to direct
-                saves <span className="text-white font-medium">₹9,200/yr</span> at current NAV.
+              <p className="text-sm font-semibold text-navy-900">Switch to Direct Plans</p>
+              <p className="text-xs text-navy-900/50 leading-relaxed">
+                Axis ELSS charges <span className="text-red-600 font-medium">1.59% ER</span>. Switching to direct
+                saves <span className="text-navy-900 font-medium">₹9,200/yr</span> at current NAV.
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-yellow-400/[0.06] border border-yellow-400/20 space-y-1">
+            <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200 space-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-yellow-400 bg-yellow-400/10 border-yellow-400/20">High</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-amber-600 bg-amber-50 border-amber-200">High</span>
               </div>
-              <p className="text-sm font-semibold text-white">Reduce HDFC–ICICI Overlap</p>
-              <p className="text-xs text-white/45 leading-relaxed">
+              <p className="text-sm font-semibold text-navy-900">Reduce HDFC–ICICI Overlap</p>
+              <p className="text-xs text-navy-900/50 leading-relaxed">
                 Both funds hold 7 identical top-10 stocks. Consider replacing ICICI BlueChip with a
                 mid-cap or international fund for true diversification.
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-blue-400/[0.06] border border-blue-400/20 space-y-1">
+            <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-200 space-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-blue-400 bg-blue-400/10 border-blue-400/20">Medium</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-blue-600 bg-blue-50 border-blue-200">Medium</span>
               </div>
-              <p className="text-sm font-semibold text-white">Add Debt for Stability</p>
-              <p className="text-xs text-white/45 leading-relaxed">
+              <p className="text-sm font-semibold text-navy-900">Add Debt for Stability</p>
+              <p className="text-xs text-navy-900/50 leading-relaxed">
                 At 86% equity your portfolio is high-risk. Add a short-duration debt fund to reach
                 your 70/30 target allocation.
               </p>
             </div>
 
-            <div className="p-3 rounded-xl bg-green-400/[0.06] border border-green-400/20 space-y-1">
+            <div className="p-3 rounded-xl bg-green-50/60 border border-green-200 space-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-green-400 bg-green-400/10 border-green-400/20">Great</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border text-green-600 bg-green-50 border-green-200">Great</span>
               </div>
-              <p className="text-sm font-semibold text-white">Parag Parikh — Keep & Top Up</p>
-              <p className="text-xs text-white/45 leading-relaxed">
+              <p className="text-sm font-semibold text-navy-900">Parag Parikh — Keep & Top Up</p>
+              <p className="text-xs text-navy-900/50 leading-relaxed">
                 Lowest overlap, direct plan, 17.3% XIRR. Ideal core holding — increase SIP by
                 ₹2,000/month.
               </p>
             </div>
 
             {/* Impact summary */}
-            <div className="pt-1 p-3 rounded-xl bg-white/[0.03] border border-white/[0.07]">
-              <p className="text-[10px] text-white/40 mb-2 uppercase tracking-wider">Estimated Impact</p>
+            <div className="pt-1 p-3 rounded-xl bg-navy-900/[0.02] border border-navy-900/[0.06]">
+              <p className="text-[10px] text-navy-900/40 mb-2 uppercase tracking-wider">Estimated Impact</p>
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
                   { label: 'Annual Saving', value: '₹23.5K' },
@@ -471,8 +467,8 @@ export default function PortfolioXRay() {
                   { label: 'Risk Reduced',  value: '↓ 12%' },
                 ].map(m => (
                   <div key={m.label}>
-                    <p className="text-sm font-extrabold text-green-growth">{m.value}</p>
-                    <p className="text-[9px] text-white/35 mt-0.5">{m.label}</p>
+                    <p className="text-sm font-extrabold text-navy-900">{m.value}</p>
+                    <p className="text-[9px] text-navy-900/35 mt-0.5">{m.label}</p>
                   </div>
                 ))}
               </div>
@@ -485,7 +481,7 @@ export default function PortfolioXRay() {
               Upload My Statement
               <ChevronRight size={14} />
             </button>
-            <p className="text-center text-[10px] text-white/25">No signup required · 100% private</p>
+            <p className="text-center text-[10px] text-navy-900/25">No signup required · 100% private</p>
           </motion.div>
         </div>
       </div>

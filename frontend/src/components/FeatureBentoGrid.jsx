@@ -6,26 +6,26 @@ function PortfolioXRayCard() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-          <ScanLine size={17} className="text-blue-400" />
+        <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+          <ScanLine size={17} className="text-blue-600" />
         </div>
         <div>
-          <p className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Portfolio X-Ray</p>
-          <h3 className="text-base font-bold text-white">Instant Portfolio Audit</h3>
+          <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">Portfolio X-Ray</p>
+          <h3 className="text-base font-bold text-navy-900">Instant Portfolio Audit</h3>
         </div>
       </div>
 
       {/* PDF scan animation */}
-      <div className="relative rounded-xl overflow-hidden bg-navy-950/60 border border-white/[0.06] p-4">
+      <div className="relative rounded-xl overflow-hidden bg-navy-900/[0.03] border border-navy-900/[0.06] p-4">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-12 rounded bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
-            <span className="text-[9px] text-white/30 font-mono">PDF</span>
+          <div className="w-10 h-12 rounded bg-navy-900/[0.04] border border-navy-900/[0.06] flex items-center justify-center">
+            <span className="text-[9px] text-navy-900/30 font-mono">PDF</span>
           </div>
           <div className="flex-1">
-            <p className="text-xs text-white/50 font-mono">CAMS_Statement_2024.pdf</p>
-            <div className="mt-1.5 h-1 rounded-full bg-white/[0.06] overflow-hidden">
+            <p className="text-xs text-navy-900/50 font-mono">CAMS_Statement_2024.pdf</p>
+            <div className="mt-1.5 h-1 rounded-full bg-navy-900/[0.06] overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-blue-400"
+                className="h-full rounded-full bg-navy-900/40"
                 initial={{ width: '0%' }}
                 whileInView={{ width: '100%' }}
                 viewport={{ once: true }}
@@ -39,7 +39,7 @@ function PortfolioXRayCard() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 2.1 }}
           >
-            <CheckCircle2 size={20} className="text-green-growth" />
+            <CheckCircle2 size={20} className="text-green-600" />
           </motion.div>
         </div>
         <div className="grid grid-cols-3 gap-2">
@@ -48,16 +48,16 @@ function PortfolioXRayCard() {
             { label: 'Overlap', value: '38%' },
             { label: 'Exp. Ratio', value: '1.4%' },
           ].map(m => (
-            <div key={m.label} className="rounded-lg bg-white/[0.04] p-2 text-center">
-              <p className="text-sm font-bold text-white">{m.value}</p>
-              <p className="text-[10px] text-white/35">{m.label}</p>
+            <div key={m.label} className="rounded-lg bg-white p-2 text-center border border-navy-900/[0.05]">
+              <p className="text-sm font-bold text-navy-900">{m.value}</p>
+              <p className="text-[10px] text-navy-900/40">{m.label}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <p className="text-sm text-white/50 leading-relaxed">
-        Upload CAMS/KFintech PDFs. Detect hidden commissions, fund overlap, and get an AI rebalancing plan in <span className="text-blue-400 font-medium">10 seconds</span>.
+      <p className="text-sm text-navy-900/50 leading-relaxed">
+        Upload CAMS/KFintech PDFs. Detect hidden commissions, fund overlap, and get an AI rebalancing plan in <span className="text-navy-900 font-medium">10 seconds</span>.
       </p>
     </div>
   )
@@ -67,12 +67,12 @@ function TaxWizardCard() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-          <Calculator size={17} className="text-amber-400" />
+        <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center">
+          <Calculator size={17} className="text-amber-600" />
         </div>
         <div>
-          <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider">Tax Wizard</p>
-          <h3 className="text-base font-bold text-white">Old vs. New Regime</h3>
+          <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">Tax Wizard</p>
+          <h3 className="text-base font-bold text-navy-900">Old vs. New Regime</h3>
         </div>
       </div>
 
@@ -86,14 +86,14 @@ function TaxWizardCard() {
             key={r.regime}
             className={`rounded-xl p-3 border text-center transition-all ${
               r.dim
-                ? 'bg-white/[0.03] border-white/[0.06] opacity-60'
-                : 'bg-green-growth/10 border-green-growth/30'
+                ? 'bg-navy-900/[0.02] border-navy-900/[0.06] opacity-60'
+                : 'bg-green-50 border-green-200'
             }`}
           >
-            <p className="text-[10px] text-white/50 mb-1">{r.regime}</p>
-            <p className={`text-lg font-extrabold ${r.dim ? 'text-white/60' : 'text-white'}`}>{r.tax}</p>
+            <p className="text-[10px] text-navy-900/50 mb-1">{r.regime}</p>
+            <p className={`text-lg font-extrabold ${r.dim ? 'text-navy-900/50' : 'text-navy-900'}`}>{r.tax}</p>
             {r.savings && (
-              <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-green-growth/20 text-green-growth text-[10px] font-bold">
+              <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">
                 Save {r.savings}
               </span>
             )}
@@ -101,8 +101,8 @@ function TaxWizardCard() {
         ))}
       </div>
 
-      <div className="rounded-xl bg-amber-400/10 border border-amber-400/20 p-3">
-        <p className="text-xs font-semibold text-amber-400">Deductions you're missing</p>
+      <div className="rounded-xl bg-amber-50 border border-amber-200 p-3">
+        <p className="text-xs font-semibold text-amber-700">Deductions you're missing</p>
         <div className="mt-2 space-y-1.5">
           {[
             { label: 'Section 80D (Health)', amount: '₹25,000' },
@@ -110,8 +110,8 @@ function TaxWizardCard() {
             { label: 'HRA claim', amount: '₹18,000' },
           ].map(d => (
             <div key={d.label} className="flex justify-between text-xs">
-              <span className="text-white/50">{d.label}</span>
-              <span className="text-amber-300 font-semibold">{d.amount}</span>
+              <span className="text-navy-900/50">{d.label}</span>
+              <span className="text-amber-700 font-semibold">{d.amount}</span>
             </div>
           ))}
         </div>
@@ -126,25 +126,25 @@ function CouplesCard() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-          <Users size={17} className="text-purple-400" />
+        <div className="w-9 h-9 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center">
+          <Users size={17} className="text-purple-600" />
         </div>
         <div>
-          <p className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Couple's Planner</p>
-          <h3 className="text-base font-bold text-white">Optimize Together</h3>
+          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider">Couple's Planner</p>
+          <h3 className="text-base font-bold text-navy-900">Optimize Together</h3>
         </div>
       </div>
 
       {/* Toggle */}
-      <div className="flex items-center justify-between p-1 rounded-xl bg-white/[0.05] border border-white/[0.06]">
+      <div className="flex items-center justify-between p-1 rounded-xl bg-navy-900/[0.04] border border-navy-900/[0.06]">
         {['Individual', 'Joint'].map(mode => (
           <button
             key={mode}
             onClick={() => setIsJoint(mode === 'Joint')}
             className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-300 ${
               (mode === 'Joint') === isJoint
-                ? 'bg-purple-500/30 text-purple-300 border border-purple-500/30'
-                : 'text-white/40 hover:text-white/60'
+                ? 'bg-white text-navy-900 shadow-sm border border-navy-900/10'
+                : 'text-navy-900/40 hover:text-navy-900/60'
             }`}
           >
             {mode}
@@ -162,15 +162,15 @@ function CouplesCard() {
         {isJoint ? (
           <>
             {[
-              { label: 'Combined Monthly SIP', value: '₹42,500', tag: 'Optimised', color: 'text-green-growth' },
-              { label: 'HRA Claim Split', value: '70/30', tag: 'Tax efficient', color: 'text-purple-400' },
-              { label: 'Combined Net Worth', value: '₹1.2Cr', tag: 'Tracked', color: 'text-blue-400' },
+              { label: 'Combined Monthly SIP', value: '₹42,500', tag: 'Optimised', color: 'text-green-700' },
+              { label: 'HRA Claim Split', value: '70/30', tag: 'Tax efficient', color: 'text-purple-600' },
+              { label: 'Combined Net Worth', value: '₹1.2Cr', tag: 'Tracked', color: 'text-blue-600' },
             ].map(item => (
-              <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.04] border border-white/[0.05]">
-                <span className="text-xs text-white/50">{item.label}</span>
+              <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-navy-900/[0.02] border border-navy-900/[0.06]">
+                <span className="text-xs text-navy-900/50">{item.label}</span>
                 <div className="text-right">
                   <p className={`text-sm font-bold ${item.color}`}>{item.value}</p>
-                  <p className="text-[10px] text-white/30">{item.tag}</p>
+                  <p className="text-[10px] text-navy-900/30">{item.tag}</p>
                 </div>
               </div>
             ))}
@@ -182,11 +182,11 @@ function CouplesCard() {
               { label: 'Tax Saving Gap', value: '₹41,200', note: 'Unoptimised' },
               { label: 'Net Worth', value: '₹68L', note: 'Individual' },
             ].map(item => (
-              <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.04] border border-white/[0.05]">
-                <span className="text-xs text-white/50">{item.label}</span>
+              <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-navy-900/[0.02] border border-navy-900/[0.06]">
+                <span className="text-xs text-navy-900/50">{item.label}</span>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-white">{item.value}</p>
-                  <p className="text-[10px] text-white/30">{item.note}</p>
+                  <p className="text-sm font-bold text-navy-900">{item.value}</p>
+                  <p className="text-[10px] text-navy-900/30">{item.note}</p>
                 </div>
               </div>
             ))}
@@ -198,10 +198,10 @@ function CouplesCard() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-center"
+          className="p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-center"
         >
-          <p className="text-xs text-purple-300 font-semibold">
-            🎉 Joint planning saves you <span className="text-white">₹14,500/mo</span>
+          <p className="text-xs text-purple-700 font-semibold">
+            🎉 Joint planning saves you <span className="text-navy-900 font-bold">₹14,500/mo</span>
           </p>
         </motion.div>
       )}
@@ -236,10 +236,10 @@ export default function FeatureBentoGrid() {
             <LayoutGrid size={11} />
             Core Features
           </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-navy-900">
             Everything You Need to <span className="gradient-text">Grow Wealth</span>
           </h2>
-          <p className="mt-4 text-white/50 max-w-lg mx-auto">
+          <p className="mt-4 text-navy-900/50 max-w-lg mx-auto">
             Six AI-powered modules that cover every dimension of your financial life — from taxes to retirement.
           </p>
         </motion.div>
@@ -260,7 +260,7 @@ export default function FeatureBentoGrid() {
               className="glass-card-hover p-6 cursor-pointer group"
             >
               {card}
-              <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-green-growth/70 group-hover:text-green-growth transition-colors">
+              <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-navy-900/40 group-hover:text-navy-900 transition-colors">
                 Explore feature <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </motion.div>
@@ -284,8 +284,8 @@ export default function FeatureBentoGrid() {
             >
               <span className="text-2xl">{f.icon}</span>
               <div>
-                <p className="text-sm font-bold text-white">{f.title}</p>
-                <p className="text-xs text-white/50 mt-1 leading-relaxed">{f.desc}</p>
+                <p className="text-sm font-bold text-navy-900">{f.title}</p>
+                <p className="text-xs text-navy-900/45 mt-1 leading-relaxed">{f.desc}</p>
               </div>
             </motion.div>
           ))}

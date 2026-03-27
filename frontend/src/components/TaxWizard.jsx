@@ -24,7 +24,6 @@ export default function TaxWizard() {
   }, [messages])
 
   const handleSend = async (messageObject = null) => {
-    // If no messageObject is passed, we create one from inputValue
     if (!messageObject && !inputValue.trim()) return
 
     const newMsg = messageObject || { role: 'user', text: inputValue }
@@ -77,7 +76,6 @@ export default function TaxWizard() {
     const file = e.target.files[0]
     if (!file) return
 
-    // Limit to PDF and images
     if (file.type !== 'application/pdf' && !file.type.startsWith('image/')) {
       alert('Please upload a valid PDF or Image file.')
       return
@@ -85,7 +83,7 @@ export default function TaxWizard() {
 
     const reader = new FileReader()
     reader.onload = () => {
-      const base64String = reader.result.split(',')[1] // Get base64 data only
+      const base64String = reader.result.split(',')[1]
       const newMsg = {
         role: 'user',
         text: `I have attached my document: ${file.name}.`,
@@ -102,42 +100,39 @@ export default function TaxWizard() {
 
   return (
     <section id="tax" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-blue-900/10 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center mb-10">
-          <div className="section-tag mx-auto mb-4 border-blue-400/20 bg-blue-400/10 text-blue-400">
+          <div className="section-tag mx-auto mb-4">
             <Sparkles size={11} />
             AI Chatbot
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
-            Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Tax Wizard</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-navy-900 mb-4">
+            Meet the <span className="gradient-text">Tax Wizard</span>
           </h2>
-          <p className="text-white/60 text-lg">
+          <p className="text-navy-900/55 text-lg">
             An expert advisor embedded with Economic Times intelligence to optimize your salary structure.
           </p>
         </div>
 
         {/* Chat Window */}
-        <div className="glass-card border border-white/10 rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-2xl">
+        <div className="glass-card border border-navy-900/10 rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-lg">
           {/* Header */}
-          <div className="bg-white/5 border-b border-white/10 p-4 flex items-center justify-between">
+          <div className="bg-navy-900/[0.03] border-b border-navy-900/[0.08] p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
-                <Sparkles size={20} className="text-blue-400" />
+              <div className="w-10 h-10 rounded-full bg-navy-900/[0.08] flex items-center justify-center border border-navy-900/10">
+                <Sparkles size={20} className="text-navy-900/60" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-sm">ET Tax Wizard</h3>
-                <p className="text-xs text-green-400 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Online
+                <h3 className="text-navy-900 font-bold text-sm">ET Tax Wizard</h3>
+                <p className="text-xs text-green-600 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online
                 </p>
               </div>
             </div>
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth bg-cream/50">
             <AnimatePresence>
               {messages.map((msg, idx) => (
                 <motion.div 
@@ -146,13 +141,13 @@ export default function TaxWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
                 >
-                  <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-1 border ${msg.role === 'user' ? 'bg-white/10 border-white/20' : 'bg-blue-500/20 border-blue-500/30'}`}>
-                    {msg.role === 'user' ? <User size={14} className="text-white" /> : <Sparkles size={14} className="text-blue-400" />}
+                  <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-1 border ${msg.role === 'user' ? 'bg-navy-900/[0.06] border-navy-900/10' : 'bg-navy-900/[0.06] border-navy-900/10'}`}>
+                    {msg.role === 'user' ? <User size={14} className="text-navy-900/60" /> : <Sparkles size={14} className="text-navy-900/60" />}
                   </div>
                   <div className={`p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user' 
-                      ? 'bg-blue-600 text-white rounded-tr-none' 
-                      : 'bg-white/5 text-white/90 border border-white/10 rounded-tl-none prose prose-invert prose-blue max-w-none'
+                      ? 'bg-navy-900 text-white rounded-tr-none' 
+                      : 'bg-white text-navy-900/80 border border-navy-900/[0.08] rounded-tl-none prose prose-sm max-w-none'
                   }`}>
                     {msg.role === 'user' ? (
                       <div>
@@ -181,13 +176,13 @@ export default function TaxWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex gap-3 max-w-[85%]"
                 >
-                  <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-1 bg-blue-500/20 border border-blue-500/30">
-                    <Sparkles size={14} className="text-blue-400" />
+                  <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-1 bg-navy-900/[0.06] border border-navy-900/10">
+                    <Sparkles size={14} className="text-navy-900/60" />
                   </div>
-                  <div className="p-4 rounded-2xl bg-white/5 text-white/50 border border-white/10 flex items-center gap-2 rounded-tl-none">
-                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce"></span>
-                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                  <div className="p-4 rounded-2xl bg-white text-navy-900/40 border border-navy-900/[0.08] flex items-center gap-2 rounded-tl-none">
+                    <span className="w-2 h-2 bg-navy-900/30 rounded-full animate-bounce"></span>
+                    <span className="w-2 h-2 bg-navy-900/30 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-2 h-2 bg-navy-900/30 rounded-full animate-bounce [animation-delay:0.4s]"></span>
                   </div>
                 </motion.div>
               )}
@@ -196,13 +191,13 @@ export default function TaxWizard() {
           </div>
 
           {/* Quick Actions & Input Area */}
-          <div className="p-4 bg-navy-900 border-t border-white/10">
+          <div className="p-4 bg-white border-t border-navy-900/[0.08]">
             {messages.length === 1 && (
               <div className="flex gap-2 mb-3 overflow-x-auto pb-2 scrollbar-hide">
-                <button onClick={pasteManualTemplate} className="flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs hover:bg-blue-500/20 transition-colors">
+                <button onClick={pasteManualTemplate} className="flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full border border-navy-900/15 bg-navy-900/[0.04] text-navy-900/60 text-xs hover:bg-navy-900/[0.08] transition-colors">
                   <Edit3 size={12} /> Enter Details Manually
                 </button>
-                <button onClick={triggerFileUpload} className="flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs hover:bg-purple-500/20 transition-colors shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                <button onClick={triggerFileUpload} className="flex flex-shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full border border-navy-900/15 bg-navy-900/[0.04] text-navy-900/60 text-xs hover:bg-navy-900/[0.08] transition-colors">
                   <UploadCloud size={12} /> Upload File / Photo
                 </button>
               </div>
@@ -222,18 +217,18 @@ export default function TaxWizard() {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask your tax question here..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-12 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 resize-none max-h-32 min-h-[50px] transition-all"
+                className="w-full bg-navy-900/[0.03] border border-navy-900/10 rounded-xl px-4 py-3 pr-12 text-sm text-navy-900 placeholder-navy-900/30 focus:outline-none focus:border-navy-900/30 focus:ring-1 focus:ring-navy-900/20 resize-none max-h-32 min-h-[50px] transition-all"
                 rows={inputValue.split('\n').length > 1 ? Math.min(6, inputValue.split('\n').length) : 1}
               />
               <button 
                 onClick={handleSend}
                 disabled={!inputValue.trim() || isLoading}
-                className="absolute right-2 bottom-2 p-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 transition-colors"
+                className="absolute right-2 bottom-2 p-2 rounded-lg bg-navy-900 text-white hover:bg-navy-800 disabled:opacity-50 disabled:hover:bg-navy-900 transition-colors"
               >
                 <Send size={16} />
               </button>
             </div>
-            <p className="text-[10px] text-white/40 text-center mt-3">
+            <p className="text-[10px] text-navy-900/35 text-center mt-3">
               * The Wizard calculates based on FY 2024-25 standards. Consult a certified CA for final filings.
             </p>
           </div>

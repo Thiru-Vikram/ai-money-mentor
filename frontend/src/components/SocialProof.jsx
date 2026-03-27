@@ -7,7 +7,7 @@ const testimonials = [
     name: 'Priya Sharma',
     role: 'Software Engineer, Bengaluru',
     avatar: 'PS',
-    avatarBg: 'from-purple-500 to-blue-500',
+    avatarBg: 'from-purple-400 to-blue-400',
     text: 'I had no clue about my portfolio overlap. The X-Ray feature found 38% overlap in 10 seconds. Rebalanced in a day. My returns improved by 2.4% in 6 months.',
     score: 84,
     stars: 5,
@@ -16,7 +16,7 @@ const testimonials = [
     name: 'Arjun & Meera Nair',
     role: 'Couple, Mumbai',
     avatar: 'AN',
-    avatarBg: 'from-green-500 to-teal-500',
+    avatarBg: 'from-green-400 to-teal-400',
     text: 'The Couple\'s Planner showed us we were wasting ₹14,500/month due to unoptimised HRA and NPS splits. Now we hit our home goal 3 years earlier.',
     score: 91,
     stars: 5,
@@ -25,7 +25,7 @@ const testimonials = [
     name: 'Ravi Krishnamurthy',
     role: 'CA, Chennai',
     avatar: 'RK',
-    avatarBg: 'from-amber-500 to-orange-500',
+    avatarBg: 'from-amber-400 to-orange-400',
     text: 'As a CA I was skeptical, but the Tax Wizard found deductions even I missed for my salaried clients. Section 80CCD(1B) NPS is criminally underused.',
     score: 78,
     stars: 5,
@@ -63,11 +63,11 @@ export default function SocialProof() {
       <div className="absolute inset-0 grid-dot-bg opacity-20 pointer-events-none" />
 
       {/* ET Markets Ticker */}
-      <div className="w-full bg-navy-950/70 border-y border-white/[0.05] py-2.5 mb-16 overflow-hidden">
+      <div className="w-full bg-navy-900/[0.04] border-y border-navy-900/[0.06] py-2.5 mb-16 overflow-hidden">
         <div className="flex gap-12 animate-ticker whitespace-nowrap" style={{ width: 'max-content' }}>
           {[...tickerItems, ...tickerItems].map((item, i) => (
-            <span key={i} className="text-xs font-mono text-white/50 flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-green-growth/60 inline-block" />
+            <span key={i} className="text-xs font-mono text-navy-900/45 flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-navy-900/30 inline-block" />
               {item}
             </span>
           ))}
@@ -87,7 +87,7 @@ export default function SocialProof() {
           >
             <div>
               <div className="section-tag mb-4">Trusted by 50,000+ investors</div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-navy-900">
                 Built on <span className="gradient-text">Real Data.</span>
                 <br />Trusted by Real People.
               </h2>
@@ -103,8 +103,8 @@ export default function SocialProof() {
               ].map(b => (
                 <div key={b.title} className="glass-card p-4 space-y-1.5">
                   <span className="text-xl">{b.emoji}</span>
-                  <p className="text-sm font-bold text-white">{b.title}</p>
-                  <p className="text-xs text-white/40 leading-relaxed">{b.desc}</p>
+                  <p className="text-sm font-bold text-navy-900">{b.title}</p>
+                  <p className="text-xs text-navy-900/40 leading-relaxed">{b.desc}</p>
                 </div>
               ))}
             </div>
@@ -117,8 +117,8 @@ export default function SocialProof() {
                 { value: '4.9★', label: 'App rating' },
               ].map(s => (
                 <div key={s.label}>
-                  <p className="text-2xl font-extrabold text-white">{s.value}</p>
-                  <p className="text-xs text-white/40">{s.label}</p>
+                  <p className="text-2xl font-extrabold text-navy-900">{s.value}</p>
+                  <p className="text-xs text-navy-900/40">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -132,7 +132,7 @@ export default function SocialProof() {
             className="relative"
           >
             <div className="glass-card p-7 relative overflow-hidden min-h-[300px]">
-              <Quote size={32} className="absolute top-6 right-6 text-white/[0.06]" />
+              <Quote size={32} className="absolute top-6 right-6 text-navy-900/[0.06]" />
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -150,7 +150,7 @@ export default function SocialProof() {
                     ))}
                   </div>
 
-                  <p className="text-white/80 text-base leading-relaxed">"{t.text}"</p>
+                  <p className="text-navy-900/75 text-base leading-relaxed">"{t.text}"</p>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -158,13 +158,13 @@ export default function SocialProof() {
                         {t.avatar}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-white">{t.name}</p>
-                        <p className="text-xs text-white/40">{t.role}</p>
+                        <p className="text-sm font-bold text-navy-900">{t.name}</p>
+                        <p className="text-xs text-navy-900/40">{t.role}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-white/30 mb-0.5">Health Score</p>
-                      <p className="text-xl font-extrabold text-green-growth">{t.score}</p>
+                      <p className="text-xs text-navy-900/30 mb-0.5">Health Score</p>
+                      <p className="text-xl font-extrabold text-navy-900">{t.score}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -179,17 +179,17 @@ export default function SocialProof() {
                     key={i}
                     onClick={() => setIdx(i)}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === idx ? 'w-6 bg-green-growth' : 'w-1.5 bg-white/20'
+                      i === idx ? 'w-6 bg-navy-900' : 'w-1.5 bg-navy-900/20'
                     }`}
                   />
                 ))}
               </div>
               <div className="flex gap-2">
-                <button onClick={prev} className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:border-white/30 transition-colors">
-                  <ChevronLeft size={15} className="text-white/50" />
+                <button onClick={prev} className="w-8 h-8 rounded-full border border-navy-900/10 flex items-center justify-center hover:border-navy-900/30 transition-colors">
+                  <ChevronLeft size={15} className="text-navy-900/50" />
                 </button>
-                <button onClick={next} className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:border-white/30 transition-colors">
-                  <ChevronRight size={15} className="text-white/50" />
+                <button onClick={next} className="w-8 h-8 rounded-full border border-navy-900/10 flex items-center justify-center hover:border-navy-900/30 transition-colors">
+                  <ChevronRight size={15} className="text-navy-900/50" />
                 </button>
               </div>
             </div>

@@ -19,9 +19,9 @@ const overall = Math.round(scoreData.reduce((s, d) => s + d.value, 0) / scoreDat
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload?.length) {
     return (
-      <div className="bg-navy-800/90 border border-white/10 backdrop-blur-md rounded-xl px-3 py-2 text-xs">
-        <p className="text-white font-semibold">{payload[0].payload.dimension}</p>
-        <p className="text-green-growth">{payload[0].value}<span className="text-white/40">/100</span></p>
+      <div className="bg-white border border-navy-900/10 shadow-lg rounded-xl px-3 py-2 text-xs">
+        <p className="text-navy-900 font-semibold">{payload[0].payload.dimension}</p>
+        <p className="text-navy-800 font-bold">{payload[0].value}<span className="text-navy-900/40">/100</span></p>
       </div>
     )
   }
@@ -39,7 +39,7 @@ const dimensionDetails = [
 
 function ScoreBar({ value, color }) {
   return (
-    <div className="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+    <div className="w-full h-1.5 rounded-full bg-navy-900/[0.06] overflow-hidden">
       <motion.div
         className="h-full rounded-full"
         style={{ background: color }}
@@ -73,11 +73,11 @@ export default function MoneyHealthScore({ onOpenFlow }) {
             <Activity size={11} />
             Money Health Score
           </div>
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-navy-900">
             Your Financial <span className="gradient-text">Vital Signs</span>
           </h2>
-          <p className="mt-4 text-white/50 max-w-xl mx-auto text-base leading-relaxed">
-            Our AI audits <span className="text-white font-medium">2,000+ data points</span> to give
+          <p className="mt-4 text-navy-900/50 max-w-xl mx-auto text-base leading-relaxed">
+            Our AI audits <span className="text-navy-900 font-medium">2,000+ data points</span> to give
             you a score out of 100 across 6 critical dimensions.
           </p>
         </motion.div>
@@ -95,11 +95,11 @@ export default function MoneyHealthScore({ onOpenFlow }) {
             <div className="text-center py-4">
               <div className="relative inline-flex items-center justify-center w-28 h-28 mx-auto mb-3">
                 <svg className="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+                  <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(10,25,47,0.06)" strokeWidth="8" />
                   <motion.circle
                     cx="50" cy="50" r="44"
                     fill="none"
-                    stroke="#10B981"
+                    stroke="#0A192F"
                     strokeWidth="8"
                     strokeLinecap="round"
                     strokeDasharray={`${2 * Math.PI * 44}`}
@@ -109,19 +109,19 @@ export default function MoneyHealthScore({ onOpenFlow }) {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-3xl font-extrabold text-white">{overall}</span>
-                  <span className="text-xs text-white/40">/100</span>
+                  <span className="text-3xl font-extrabold text-navy-900">{overall}</span>
+                  <span className="text-xs text-navy-900/40">/100</span>
                 </div>
               </div>
-              <p className="text-sm font-semibold text-white">Overall Score</p>
-              <p className="text-xs text-yellow-400 font-medium mt-0.5">Needs Attention</p>
+              <p className="text-sm font-semibold text-navy-900">Overall Score</p>
+              <p className="text-xs text-amber-600 font-medium mt-0.5">Needs Attention</p>
             </div>
 
             <div className="space-y-3">
               {dimensionDetails.map(d => (
                 <div key={d.label} className="space-y-1.5">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-white/60">{d.label}</span>
+                    <span className="text-xs text-navy-900/55">{d.label}</span>
                     <span className="text-xs font-bold" style={{ color: d.color }}>{d.value}</span>
                   </div>
                   <ScoreBar value={d.value} color={d.color} />
@@ -137,28 +137,28 @@ export default function MoneyHealthScore({ onOpenFlow }) {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="glass-card p-6 flex flex-col items-center"
           >
-            <p className="text-sm font-semibold text-white/70 mb-4 self-start">Dimension Radar</p>
+            <p className="text-sm font-semibold text-navy-900/70 mb-4 self-start">Dimension Radar</p>
             <ResponsiveContainer width="100%" height={280}>
               <RadarChart cx="50%" cy="50%" outerRadius="72%" data={scoreData}>
-                <PolarGrid stroke="rgba(255,255,255,0.07)" />
+                <PolarGrid stroke="rgba(10,25,47,0.08)" />
                 <PolarAngleAxis
                   dataKey="dimension"
-                  tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 11, fontFamily: 'Plus Jakarta Sans' }}
+                  tick={{ fill: 'rgba(10,25,47,0.5)', fontSize: 11, fontFamily: 'Plus Jakarta Sans' }}
                 />
                 <Radar
                   name="Score"
                   dataKey="value"
-                  stroke="#10B981"
-                  fill="#10B981"
-                  fillOpacity={0.18}
+                  stroke="#0A192F"
+                  fill="#0A192F"
+                  fillOpacity={0.1}
                   strokeWidth={2}
                 />
                 <Tooltip content={<CustomTooltip />} />
               </RadarChart>
             </ResponsiveContainer>
-            <div className="mt-4 w-full p-3 rounded-xl bg-green-growth/10 border border-green-growth/20 text-center">
-              <p className="text-xs text-white/50">Biggest opportunity</p>
-              <p className="text-sm font-bold text-green-growth mt-0.5">Tax Efficiency (+₹54,000/yr)</p>
+            <div className="mt-4 w-full p-3 rounded-xl bg-navy-900/[0.04] border border-navy-900/[0.08] text-center">
+              <p className="text-xs text-navy-900/45">Biggest opportunity</p>
+              <p className="text-sm font-bold text-navy-900 mt-0.5">Tax Efficiency (+₹54,000/yr)</p>
             </div>
           </motion.div>
 
@@ -169,41 +169,41 @@ export default function MoneyHealthScore({ onOpenFlow }) {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="glass-card p-6 space-y-4"
           >
-            <p className="text-sm font-semibold text-white/70">AI Recommendations</p>
+            <p className="text-sm font-semibold text-navy-900/70">AI Recommendations</p>
             {[
               {
                 priority: 'Critical',
-                color: 'text-red-400 bg-red-400/10 border-red-400/20',
+                color: 'text-red-600 bg-red-50 border-red-200',
                 title: 'Claim Section 80D deductions',
                 detail: 'Missing ₹25,000 health insurance deduction under old regime.',
               },
               {
                 priority: 'High',
-                color: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
+                color: 'text-amber-600 bg-amber-50 border-amber-200',
                 title: 'Increase term insurance cover',
                 detail: 'Current ₹50L cover is 3.2x income. Recommended: minimum 10x.',
               },
               {
                 priority: 'Medium',
-                color: 'text-blue-400 bg-blue-400/10 border-blue-400/20',
+                color: 'text-blue-600 bg-blue-50 border-blue-200',
                 title: 'Start NPS for extra ₹50k deduction',
                 detail: 'Section 80CCD(1B) allows ₹50,000 over and above 80C limit.',
               },
               {
                 priority: 'Good',
-                color: 'text-green-400 bg-green-400/10 border-green-400/20',
+                color: 'text-green-600 bg-green-50 border-green-200',
                 title: 'Portfolio diversification is solid',
                 detail: 'Low overlap across your 5 mutual funds. No action needed.',
               },
             ].map(item => (
-              <div key={item.title} className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1.5">
+              <div key={item.title} className="p-3 rounded-xl bg-navy-900/[0.02] border border-navy-900/[0.06] space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${item.color}`}>
                     {item.priority}
                   </span>
                 </div>
-                <p className="text-sm font-semibold text-white">{item.title}</p>
-                <p className="text-xs text-white/45 leading-relaxed">{item.detail}</p>
+                <p className="text-sm font-semibold text-navy-900">{item.title}</p>
+                <p className="text-xs text-navy-900/45 leading-relaxed">{item.detail}</p>
               </div>
             ))}
 

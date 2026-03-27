@@ -1,22 +1,52 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 
 const navLinks = [
-  { label: 'Features', href: '#features' },
-  { label: 'Portfolio X-Ray', href: '#xray' },
-  { label: 'Tax Wizard', href: '#tax' },
   { label: 'Health Score', href: '#health' },
+  { label: 'Tax Wizard', href: '#tax' },
+  { label: 'Features', href: '#features' },
+  { label: 'Life Advisor', href: '#advisor' },
+  { label: 'Portfolio X-Ray', href: '#xray' },
+  { label: 'FIRE Planner', href: '#fire' },
 ]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20)
+
+      // Determine active section based on scroll position
+      const sections = navLinks.map(l => l.href.slice(1))
+      let current = ''
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= 120) current = id
+        }
+      }
+      setActiveSection(current)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollTo = useCallback((e, href) => {
+    e.preventDefault()
+    const id = href.slice(1)
+    const el = document.getElementById(id)
+    if (el) {
+      const offset = 72 // navbar height + breathing room
+      const top = el.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+    setMenuOpen(false)
   }, [])
 
   return (
@@ -29,34 +59,53 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 group">
+        <a
+          href="#"
+          onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          className="flex items-center gap-2.5 group flex-shrink-0"
+        >
           <div className="w-8 h-8 rounded-lg bg-navy-900/10 border border-navy-900/20 flex items-center justify-center group-hover:bg-navy-900/15 transition-colors">
             <Zap size={16} className="text-navy-900" />
           </div>
-          <span className="font-bold text-navy-900 text-base tracking-tight">
+          <span className="font-bold text-navy-900 text-base tracking-tight hidden sm:inline">
             AI<span className="text-navy-600">Money</span>Mentor
           </span>
         </a>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-7">
-          {navLinks.map(l => (
-            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
-          ))}
+        {/* Desktop Links (Centered) */}
+        <div className="hidden lg:flex items-center justify-center flex-1 mx-8 gap-1">
+          {navLinks.map(l => {
+            const isActive = activeSection === l.href.slice(1)
+            return (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={e => scrollTo(e, l.href)}
+                className={`relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                  isActive
+                    ? 'text-navy-900 bg-navy-900/[0.06]'
+                    : 'text-navy-900/50 hover:text-navy-900 hover:bg-navy-900/[0.03]'
+                }`}
+              >
+                {l.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-3 right-3 h-0.5 bg-navy-900 rounded-full"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+              </a>
+            )
+          })}
         </div>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <button className="btn-ghost text-xs px-4 py-2">Log in</button>
-          <button className="btn-primary text-xs px-4 py-2 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            Connect CAMS
-          </button>
-        </div>
+        {/* Empty div for flexbox balancing to ensure absolute centering */}
+        <div className="hidden lg:block w-[180px]"></div>
 
         {/* Mobile menu toggle */}
         <button
-          className="md:hidden p-2 rounded-lg text-navy-900/70 hover:text-navy-900 hover:bg-navy-900/[0.05] transition-colors"
+          className="lg:hidden p-2 rounded-lg text-navy-900/70 hover:text-navy-900 hover:bg-navy-900/[0.05] transition-colors"
           onClick={() => setMenuOpen(v => !v)}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -70,20 +119,26 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-navy-900/[0.06] bg-cream/95 backdrop-blur-md"
+            className="lg:hidden border-t border-navy-900/[0.06] bg-cream/95 backdrop-blur-md"
           >
-            <div className="px-4 py-4 flex flex-col gap-3">
-              {navLinks.map(l => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  className="text-navy-900/70 hover:text-navy-900 py-2 text-sm font-medium border-b border-navy-900/[0.05]"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {l.label}
-                </a>
-              ))}
-              <button className="btn-primary mt-2 w-full justify-center">Connect CAMS</button>
+            <div className="px-4 py-4 flex flex-col gap-1">
+              {navLinks.map(l => {
+                const isActive = activeSection === l.href.slice(1)
+                return (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    onClick={e => scrollTo(e, l.href)}
+                    className={`py-2.5 px-3 rounded-xl text-sm font-medium transition-all ${
+                      isActive
+                        ? 'text-navy-900 bg-navy-900/[0.06]'
+                        : 'text-navy-900/60 hover:text-navy-900 hover:bg-navy-900/[0.03]'
+                    }`}
+                  >
+                    {l.label}
+                  </a>
+                )
+              })}
             </div>
           </motion.div>
         )}

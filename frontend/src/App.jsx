@@ -5,9 +5,9 @@ import HeroSection from './components/HeroSection'
 import MoneyHealthScore from './components/MoneyHealthScore'
 import TaxWizard from './components/TaxWizard'
 import FeatureBentoGrid from './components/FeatureBentoGrid'
+import LifeEventAdvisor from './components/LifeEventAdvisor'
 import PortfolioXRay from './components/PortfolioXRay'
 import FirePathPlanner from './components/FirePathPlanner'
-import SocialProof from './components/SocialProof'
 import FooterCTA from './components/FooterCTA'
 import MoneyHealthScoreFlow from './components/MoneyHealthScoreFlow'
 
@@ -22,9 +22,9 @@ function App() {
         <MoneyHealthScore onOpenFlow={() => setIsHealthScoreOpen(true)} />
         <TaxWizard />
         <FeatureBentoGrid />
+        <LifeEventAdvisor />
         <PortfolioXRay />
         <FirePathPlanner />
-        <SocialProof />
       </main>
       <FooterCTA />
       

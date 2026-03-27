@@ -1,7 +1,176 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Flame, ArrowRight, ArrowLeft, User, Wallet, PiggyBank, Target, Plus, X, Loader2, Sparkles, RotateCcw } from 'lucide-react'
+import { Flame, ArrowRight, ArrowLeft, User, Wallet, PiggyBank, Target, Plus, X, Loader2, Sparkles, RotateCcw, TrendingUp, Shield, Receipt, Calendar, ChevronRight } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+
+// Icons mapped to common FIRE section keywords
+const SECTION_META = [
+  { match: ['summary', 'fire summary', 'fire number'], icon: Flame, color: 'orange' },
+  { match: ['sip', 'allocation', 'investment'], icon: TrendingUp, color: 'emerald' },
+  { match: ['goal', 'breakdown'], icon: Target, color: 'blue' },
+  { match: ['timeline', 'milestone', 'year'], icon: Calendar, color: 'purple' },
+  { match: ['insurance', 'safety', 'emergency'], icon: Shield, color: 'cyan' },
+  { match: ['tax', 'saving', 'deduction', '80c', 'regime'], icon: Receipt, color: 'amber' },
+]
+
+function getSectionMeta(title) {
+  const lower = title.toLowerCase()
+  for (const s of SECTION_META) {
+    if (s.match.some(kw => lower.includes(kw))) return s
+  }
+  return { icon: Sparkles, color: 'orange' }
+}
+
+function parseSections(markdown) {
+  if (!markdown) return []
+  const lines = markdown.split('\n')
+  const sections = []
+  let current = null
+
+  for (const line of lines) {
+    const h2Match = line.match(/^##\s+(.+)/)
+    if (h2Match) {
+      if (current) sections.push(current)
+      const rawTitle = h2Match[1].replace(/[🔥📊🎯📅🛡️💰]/g, '').trim()
+      const emoji = h2Match[1].match(/[🔥📊🎯📅🛡️💰]/)?.[0] || '✨'
+      current = { title: rawTitle, emoji, content: '', ...getSectionMeta(rawTitle) }
+    } else if (current) {
+      current.content += line + '\n'
+    }
+  }
+  if (current) sections.push(current)
+  return sections
+}
+
+function HeroStats({ formData }) {
+  const yearsToFire = Math.max(0, formData.retirementAge - formData.currentAge)
+  const annualExpenses = formData.monthlyExpenses * 12
+  const fireNumber = Math.round(annualExpenses * 25 * Math.pow(1.06, yearsToFire))
+  const savingsRate = formData.monthlyIncome > 0 ? Math.round(((formData.monthlyIncome - formData.monthlyExpenses) / formData.monthlyIncome) * 100) : 0
+  const monthlySurplus = formData.monthlyIncome - formData.monthlyExpenses
+
+  const formatCr = (v) => {
+    if (v >= 10000000) return `₹${(v / 10000000).toFixed(1)}Cr`
+    if (v >= 100000) return `₹${(v / 100000).toFixed(1)}L`
+    return `₹${new Intl.NumberFormat('en-IN').format(v)}`
+  }
+
+  const stats = [
+    { label: 'FIRE Number', value: formatCr(fireNumber), sub: '25× expenses (inflation adj.)', color: 'text-orange-400' },
+    { label: 'Years to FIRE', value: `${yearsToFire} yrs`, sub: `Age ${formData.currentAge} → ${formData.retirementAge}`, color: 'text-red-400' },
+    { label: 'Savings Rate', value: `${savingsRate}%`, sub: savingsRate >= 50 ? 'FIRE-ready!' : 'Target 50%+', color: savingsRate >= 50 ? 'text-green-400' : 'text-yellow-400' },
+    { label: 'Monthly Surplus', value: formatCr(monthlySurplus), sub: 'Available to invest', color: 'text-emerald-400' },
+  ]
+
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+      {stats.map(s => (
+        <motion.div
+          key={s.label}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="glass-card border border-white/10 rounded-xl p-4 text-center"
+        >
+          <p className={`text-xl sm:text-2xl font-extrabold ${s.color}`}>{s.value}</p>
+          <p className="text-xs font-semibold text-white/80 mt-1">{s.label}</p>
+          <p className="text-[10px] text-white/35 mt-0.5">{s.sub}</p>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
+function TabbedResult({ sections, activeTab, setActiveTab }) {
+  const active = sections[activeTab]
+  if (!active) return null
+  const Icon = active.icon
+  const colorMap = {
+    orange: 'border-orange-500/40 bg-orange-500/10 text-orange-400',
+    emerald: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400',
+    blue: 'border-blue-500/40 bg-blue-500/10 text-blue-400',
+    purple: 'border-purple-500/40 bg-purple-500/10 text-purple-400',
+    cyan: 'border-cyan-500/40 bg-cyan-500/10 text-cyan-400',
+    amber: 'border-amber-500/40 bg-amber-500/10 text-amber-400',
+  }
+  const tabBg = {
+    orange: 'bg-orange-500/20 border-orange-500/40 text-orange-300',
+    emerald: 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300',
+    blue: 'bg-blue-500/20 border-blue-500/40 text-blue-300',
+    purple: 'bg-purple-500/20 border-purple-500/40 text-purple-300',
+    cyan: 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300',
+    amber: 'bg-amber-500/20 border-amber-500/40 text-amber-300',
+  }
+
+  return (
+    <div>
+      {/* Tab bar — horizontal scroll on mobile */}
+      <div className="flex gap-2 overflow-x-auto pb-3 mb-4 scrollbar-hide">
+        {sections.map((s, i) => {
+          const SIcon = s.icon
+          const isActive = i === activeTab
+          return (
+            <button
+              key={i}
+              onClick={() => setActiveTab(i)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap border transition-all duration-200 ${
+                isActive
+                  ? tabBg[s.color] || tabBg.orange
+                  : 'bg-white/[0.03] border-white/[0.06] text-white/40 hover:text-white/60 hover:border-white/10'
+              }`}
+            >
+              <SIcon size={13} />
+              {s.title.length > 22 ? s.title.slice(0, 20) + '…' : s.title}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Active section content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2 }}
+          className={`glass-card border rounded-2xl p-5 sm:p-6 ${colorMap[active.color]?.split(' ').filter(c => c.startsWith('border-'))[0] || 'border-white/10'} border-opacity-30`}
+          style={{ borderColor: undefined }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${colorMap[active.color] || colorMap.orange}`}>
+              <Icon size={18} />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white">{active.emoji} {active.title}</h3>
+            </div>
+          </div>
+          <div className="prose prose-invert max-w-none prose-sm
+            prose-headings:text-white prose-headings:font-bold
+            prose-h3:text-sm prose-h3:mt-4 prose-h3:mb-2
+            prose-p:text-white/70 prose-p:text-sm prose-p:leading-relaxed prose-p:my-2
+            prose-li:text-white/70 prose-li:text-sm prose-li:my-0.5
+            prose-strong:text-white
+            prose-table:text-xs
+            prose-th:text-white/80 prose-th:font-semibold prose-th:text-left prose-th:px-2 prose-th:py-1.5 prose-th:bg-white/[0.04] prose-th:border prose-th:border-white/[0.06]
+            prose-td:text-white/60 prose-td:px-2 prose-td:py-1.5 prose-td:border prose-td:border-white/[0.06]
+          ">
+            <ReactMarkdown>{active.content.trim()}</ReactMarkdown>
+          </div>
+
+          {/* Nav hint */}
+          {activeTab < sections.length - 1 && (
+            <button
+              onClick={() => setActiveTab(prev => prev + 1)}
+              className="mt-4 flex items-center gap-1.5 text-xs font-medium text-white/30 hover:text-white/60 transition-colors"
+            >
+              Next: {sections[activeTab + 1]?.title} <ChevronRight size={12} />
+            </button>
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
 
 const MotionDiv = motion.div
 
@@ -127,7 +296,10 @@ export default function FirePathPlanner() {
   const [isLoading, setIsLoading] = useState(false)
   const [roadmap, setRoadmap] = useState(null)
   const [error, setError] = useState(null)
+  const [activeTab, setActiveTab] = useState(0)
   const resultRef = useRef(null)
+
+  const sections = useMemo(() => parseSections(roadmap), [roadmap])
 
   // Form state
   const [formData, setFormData] = useState({
@@ -199,6 +371,7 @@ export default function FirePathPlanner() {
     setRoadmap(null)
     setError(null)
     setStep(0)
+    setActiveTab(0)
   }
 
   const canProceed = () => {
@@ -425,8 +598,8 @@ export default function FirePathPlanner() {
                   <Sparkles size={20} className="text-orange-400" />
                 </div>
                 <div>
-                  <h3 className="text-white font-bold text-lg">Your Personalized FIRE Roadmap</h3>
-                  <p className="text-white/40 text-xs">Generated by AI based on your financial profile</p>
+                  <h3 className="text-white font-bold text-lg">Your FIRE Roadmap</h3>
+                  <p className="text-white/40 text-xs">AI-generated • {sections.length} sections</p>
                 </div>
               </div>
               <button
@@ -437,28 +610,23 @@ export default function FirePathPlanner() {
               </button>
             </div>
 
-            {/* Markdown content */}
-            <div className="glass-card border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl">
-              <div className="prose prose-invert prose-orange max-w-none
-                prose-headings:text-white prose-headings:font-extrabold prose-headings:tracking-tight
-                prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:pb-3 prose-h2:border-b prose-h2:border-white/[0.06]
-                prose-h3:text-base prose-h3:mt-6 prose-h3:mb-2
-                prose-p:text-white/70 prose-p:text-sm prose-p:leading-relaxed
-                prose-li:text-white/70 prose-li:text-sm
-                prose-strong:text-white prose-strong:font-bold
-                prose-table:text-sm
-                prose-th:text-white/80 prose-th:font-semibold prose-th:text-left prose-th:px-3 prose-th:py-2 prose-th:bg-white/[0.04] prose-th:border prose-th:border-white/[0.06]
-                prose-td:text-white/60 prose-td:px-3 prose-td:py-2 prose-td:border prose-td:border-white/[0.06]
-                prose-code:text-orange-300 prose-code:bg-orange-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
-                prose-a:text-orange-400 prose-a:no-underline hover:prose-a:underline
-              ">
-                <ReactMarkdown>{roadmap}</ReactMarkdown>
+            {/* Hero stat cards */}
+            <HeroStats formData={formData} />
+
+            {/* Tabbed sections */}
+            {sections.length > 0 ? (
+              <TabbedResult sections={sections} activeTab={activeTab} setActiveTab={setActiveTab} />
+            ) : (
+              <div className="glass-card border border-white/10 rounded-2xl p-6">
+                <div className="prose prose-invert prose-sm max-w-none prose-p:text-white/70 prose-strong:text-white prose-li:text-white/70">
+                  <ReactMarkdown>{roadmap}</ReactMarkdown>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Disclaimer */}
             <p className="text-center text-white/30 text-[10px] mt-6">
-              * This AI-generated roadmap is for educational purposes only. Consult a SEBI-registered financial advisor before making investment decisions.
+              * AI-generated roadmap for educational purposes only. Consult a SEBI-registered financial advisor before investing.
             </p>
           </MotionDiv>
         )}

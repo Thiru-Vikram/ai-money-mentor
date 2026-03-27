@@ -141,11 +141,25 @@ public class FirePlannerService {
 
             if (response != null && response.containsKey("candidates")) {
                 List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
-                if (!candidates.isEmpty()) {
+                if (candidates != null && !candidates.isEmpty()) {
                     Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
-                    List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
-                    return (String) parts.get(0).get("text");
+                    if (content != null) {
+                        List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+                        if (parts != null && !parts.isEmpty()) {
+                            return (String) parts.get(0).get("text");
+                        }
+                    }
+                    // Check if blocked by safety filters
+                    Object finishReason = candidates.get(0).get("finishReason");
+                    if ("SAFETY".equals(finishReason)) {
+                        return "The AI could not generate a response due to content safety filters. Please try rephrasing your goals.";
+                    }
                 }
+            }
+            // Check for API error messages
+            if (response != null && response.containsKey("error")) {
+                Map<String, Object> error = (Map<String, Object>) response.get("error");
+                return "Gemini API error: " + error.getOrDefault("message", "Unknown error. Please check your API key.");
             }
             return "Sorry, I could not generate a FIRE roadmap. Please try again.";
         } catch (Exception e) {

@@ -13,10 +13,13 @@ export default function TaxWizard() {
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
+  const chatContainerRef = useRef(null)
   const fileInputRef = useRef(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
   }
 
   useEffect(() => {
@@ -132,7 +135,7 @@ export default function TaxWizard() {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth bg-cream/50">
+          <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth bg-cream/50">
             <AnimatePresence>
               {messages.map((msg, idx) => (
                 <motion.div 

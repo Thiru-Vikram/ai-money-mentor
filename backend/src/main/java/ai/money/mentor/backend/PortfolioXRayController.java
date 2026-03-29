@@ -15,16 +15,18 @@ public class PortfolioXRayController {
         this.portfolioXRayService = portfolioXRayService;
     }
 
+    @SuppressWarnings("unchecked")
     @PostMapping("/analyze")
-    public ResponseEntity<Map<String, String>> analyzePortfolio(@RequestBody Map<String, String> request) {
-        String prompt = request.get("prompt");
+    public ResponseEntity<Map<String, String>> analyzePortfolio(@RequestBody Map<String, Object> request) {
+        String prompt = (String) request.getOrDefault("prompt", "");
+        Map<String, Object> inlineData = (Map<String, Object>) request.getOrDefault("inlineData", null);
 
-        if (prompt == null || prompt.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Portfolio data is required"));
+        if ((prompt == null || prompt.isBlank()) && inlineData == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Portfolio data or file upload is required"));
         }
 
         try {
-            String aiResponse = portfolioXRayService.analyzePortfolio(prompt);
+            String aiResponse = portfolioXRayService.analyzePortfolio(prompt, inlineData);
             return ResponseEntity.ok(Map.of("response", aiResponse));
         } catch (Exception e) {
             e.printStackTrace();

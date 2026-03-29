@@ -50,7 +50,12 @@ export default function TaxWizard() {
       if (response.ok && data.response) {
         setMessages([...newMessages, { role: 'assistant', text: data.response }])
       } else {
-        setMessages([...newMessages, { role: 'assistant', text: "Hmm, I encountered an issue connecting to my brain. Is your Spring Boot backend running with the Gemini API key?" }])
+        const errorMsg = data.error || "Hmm, I encountered an issue connecting to my brain. Make sure the backend is running and your API key is valid."
+        if (errorMsg.includes("429") || errorMsg.includes("quota")) {
+          setMessages([...newMessages, { role: 'assistant', text: "I've hit the Google Gemini API rate limit for the free tier! Please wait about 30 seconds before asking another question." }])
+        } else {
+          setMessages([...newMessages, { role: 'assistant', text: "Error: " + errorMsg }])
+        }
       }
     } catch (error) {
        console.error(error)

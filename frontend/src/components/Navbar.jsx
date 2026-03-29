@@ -3,13 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
 
 const navLinks = [
-  { label: 'Health Score', href: '#health' },
-  { label: 'Tax Wizard', href: '#tax' },
   { label: 'Features', href: '#features' },
+  { label: 'FIRE Planner', href: '#fire' },
+  { label: 'Health Score', href: '#health' },
   { label: 'Life Advisor', href: '#advisor' },
   { label: 'Couple Planner', href: '#couples' },
   { label: 'Portfolio X-Ray', href: '#xray' },
-  { label: 'FIRE Planner', href: '#fire' },
 ]
 
 export default function Navbar() {

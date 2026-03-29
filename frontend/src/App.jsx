@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './index.css'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
@@ -10,30 +9,22 @@ import CouplesMoneyPlanner from './components/CouplesMoneyPlanner'
 import PortfolioXRay from './components/PortfolioXRay'
 import FirePathPlanner from './components/FirePathPlanner'
 import FooterCTA from './components/FooterCTA'
-import MoneyHealthScoreFlow from './components/MoneyHealthScoreFlow'
 
 function App() {
-  const [isHealthScoreOpen, setIsHealthScoreOpen] = useState(false)
-
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Navbar />
       <main>
         <HeroSection />
-        <MoneyHealthScore onOpenFlow={() => setIsHealthScoreOpen(true)} />
-        <TaxWizard />
         <FeatureBentoGrid />
+        <FirePathPlanner />
+        <MoneyHealthScore />
+        <TaxWizard />
         <LifeEventAdvisor />
         <CouplesMoneyPlanner />
         <PortfolioXRay />
-        <FirePathPlanner />
       </main>
       <FooterCTA />
-      
-      <MoneyHealthScoreFlow 
-        isOpen={isHealthScoreOpen} 
-        onClose={() => setIsHealthScoreOpen(false)} 
-      />
     </div>
   )
 }

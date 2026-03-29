@@ -35,17 +35,22 @@ export default function FooterCTA() {
           </h2>
 
           <p className="text-white/50 max-w-lg mx-auto text-lg leading-relaxed mb-10">
-            Join 50,000+ Indians who've stopped guessing and started growing with AI-powered
-            guidance from ET Money Mentor.
+            Stop guessing and start growing with AI-powered financial
+            guidance tailored to your goals.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="px-8 py-4 rounded-xl bg-white text-navy-900 font-semibold text-base flex items-center gap-2 shadow-xl hover:bg-white/90 active:scale-95 transition-all">
+            <button
+              onClick={() => {
+                const el = document.getElementById('fire')
+                if (el) {
+                  const top = el.getBoundingClientRect().top + window.scrollY - 72
+                  window.scrollTo({ top, behavior: 'smooth' })
+                }
+              }}
+              className="px-8 py-4 rounded-xl bg-white text-navy-900 font-semibold text-base flex items-center gap-2 shadow-xl hover:bg-white/90 active:scale-95 transition-all"
+            >
               Get My Free FIRE Plan <ArrowRight size={18} />
-            </button>
-            <button className="px-7 py-4 rounded-xl border border-white/20 text-white/80 font-medium text-base flex items-center gap-2 hover:border-white/40 hover:text-white transition-all">
-              <HeartPulse size={16} className="text-white/60" />
-              Take the 5-Min Money Health Quiz
             </button>
           </div>
 

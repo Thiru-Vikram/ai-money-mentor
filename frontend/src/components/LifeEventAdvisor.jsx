@@ -61,13 +61,7 @@ const LIFE_EVENTS = [
   },
 ]
 
-const SIDEBAR_LINKS = [
-  { id: 'events', label: 'Life Events', icon: Sparkles, active: true },
-  { id: 'tax', label: 'Tax Planning', icon: PiggyBank },
-  { id: 'estate', label: 'Estate Strategy', icon: Landmark },
-  { id: 'insurance', label: 'Insurance', icon: Shield },
-  { id: 'wealth', label: 'Wealth Gap', icon: TrendingUp },
-]
+
 
 /* ─── Backend API ─────────────────────────────────────────────────────────── */
 async function fetchAdvisory(prompt) {
@@ -82,34 +76,7 @@ async function fetchAdvisory(prompt) {
   return JSON.parse(cleaned)
 }
 
-/* ─── Fallback Data ───────────────────────────────────────────────────────── */
-const FALLBACK = {
-  headline: 'Strategy for your ₹5,00,000 Bonus',
-  confidence: 98,
-  taxImpact: {
-    estimatedLiability: '₹1,50,000',
-    priority: 'HIGH',
-    description: 'Your bonus shifts your annual income into the 30% bracket. Immediate optimization required via Section 80C and NPS top-ups.',
-  },
-  immediateActions: [
-    { title: 'NPS Tier 1 Contribution', amount: '₹50,000', description: 'Maximize tax deduction under Sec 80CCD(1B).' },
-    { title: 'Credit Card Paydown', amount: '₹1,20,000', description: 'Eliminate high-interest debt (36% APR) immediately.' },
-    { title: 'Liquid Reserve', amount: '₹80,000', description: 'Replenish emergency fund to 6 months of expenses.' },
-  ],
-  longTermAllocation: [
-    { title: 'Index Fund Lump Sum', amount: '₹2,00,000', description: 'Diversified equity exposure for 10yr+ horizon.' },
-    { title: 'Gold SGBs', amount: '₹50,000', description: 'Strategic hedge against market volatility.' },
-    { title: 'ELSS Tax Saver', amount: '₹1,50,000', description: 'Lock-in for 80C with equity upside.' },
-  ],
-  healthImpact: { points: 12, quarterData: [45, 52, 48, 55, 67] },
-  fireImpact: 'This allocation accelerates your FIRE date by 4 months.',
-  checklist: [
-    'Confirm Bonus Receipt in Ledger',
-    'Execute NPS Tier 1 Transfer',
-    'Initiate Credit Card Payment',
-    'Schedule Index Fund SIP/Lump Sum',
-  ],
-}
+/* No fallback data — all results come from AI */
 
 /* ─── Chart Tooltip ───────────────────────────────────────────────────────── */
 const BarTooltipCustom = ({ active, payload, label }) => {
@@ -152,9 +119,7 @@ export default function LifeEventAdvisor() {
       setCheckedItems({})
     } catch (err) {
       console.error('Advisory API error:', err)
-      setError('AI analysis failed. Showing sample advisory.')
-      setAdvisory(FALLBACK)
-      setCheckedItems({ 0: true })
+      setError('AI analysis failed. Please check that the backend is running and try again.')
     } finally {
       setLoading(false)
     }
@@ -192,39 +157,9 @@ export default function LifeEventAdvisor() {
           </p>
         </div>
 
-        <div className="flex gap-6">
-          {/* ── Left Sidebar ── */}
-          <div className="hidden lg:flex flex-col w-56 flex-shrink-0 space-y-2">
-            {/* Sidebar Nav */}
-            <div className="glass-card p-3 space-y-1 mb-4">
-              {SIDEBAR_LINKS.map(link => (
-                <button
-                  key={link.id}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                    link.active
-                      ? 'bg-navy-900 text-white'
-                      : 'text-navy-900/50 hover:bg-navy-900/[0.04] hover:text-navy-900'
-                  }`}
-                >
-                  <link.icon size={15} />
-                  {link.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Bottom links */}
-            <div className="mt-auto pt-4 space-y-1">
-              <button className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-navy-900/40 hover:text-navy-900/60 transition-colors">
-                <HelpCircle size={15} /> Support
-              </button>
-              <button className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-navy-900/40 hover:text-navy-900/60 transition-colors">
-                <Archive size={15} /> Archive
-              </button>
-            </div>
-          </div>
-
+        <div>
           {/* ── Main Content ── */}
-          <div className="flex-1 min-w-0 space-y-5">
+          <div className="max-w-5xl mx-auto space-y-5">
             {/* Event Selection + API Key */}
             <div className="grid lg:grid-cols-5 gap-5">
               {/* Select Milestone */}
